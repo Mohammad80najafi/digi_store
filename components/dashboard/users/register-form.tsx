@@ -1,8 +1,11 @@
 'use client';
 import { CreateDashboardUserAction } from '@/actions/user-auth';
 import SubmitButton from '@/components/auth/submit-button';
+import { useRef } from 'react';
 
 const registerUserForm = () => {
+  const formRef = useRef<HTMLFormElement>(null);
+
   return (
     <div>
       <div className='flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8'>
@@ -16,8 +19,9 @@ const registerUserForm = () => {
             className='space-y-6'
             action={(formdata) => {
               const res = CreateDashboardUserAction(formdata);
-              if (res.sucess) {
-                alert('اطلاعات شما با موفقیت ثبت شد');
+              if (res?.sucess) {
+                alert(res?.message);
+                formRef.current?.reset();
               }
             }}
           >
