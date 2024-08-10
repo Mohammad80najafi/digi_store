@@ -172,9 +172,9 @@ export const DeleteUserAction = async (id: string) => {
   }
 };
 
-export const EditUserAction = async (formdata: EditUserActionProps) => {
-  console.log('formdata from edit user action', formdata);
-  const { name, email, password, userRoleUser, id: userId } = formdata;
+export const EditUserAction = async (formdata: any, userId: any) => {
+  const { name, email, password, userRoleUser } = Object.fromEntries(formdata);
+  console.log('formdata from edit user action', formdata, userId);
   try {
     let userSelectedRole = userRoleUser === 'on' ? 'USER' : 'ADMIN';
     const user = await prismadb.user.update({
@@ -185,7 +185,7 @@ export const EditUserAction = async (formdata: EditUserActionProps) => {
         role: userSelectedRole as Role,
       },
       where: {
-        id: userId as string,
+        id: userId as any,
       },
     });
     if (user) {

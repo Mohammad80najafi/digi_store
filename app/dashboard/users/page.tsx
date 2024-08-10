@@ -8,11 +8,11 @@ const Users = async () => {
   const users = await GetAllUsersAction();
 
   return (
-    <div className='min-w-screen'>
-      <div>
+    <div className='grid w-[100%] grid-cols-1 gap-4 lg:grid-cols-12'>
+      <div className='w-[100%] place-items-center lg:col-span-4'>
         <RegisterUserForm />
       </div>
-      <div className=''>
+      <div className='flex w-full items-center justify-center overflow-x-scroll md:overflow-hidden lg:col-span-8'>
         <UsersList users={users} />
       </div>
     </div>

@@ -30,24 +30,37 @@ const EditUserForm = ({ user }: any) => {
     password: '',
     userRoleUser: '',
     userRoleAdmin: '',
-    id: user?.id,
   });
 
-  const handleSubmit = async () => {
-    const res = await EditUserAction(data);
-    console.log('data', data);
-  };
+  useEffect(() => {
+    setData({
+      name: user?.name,
+      email: user?.email,
+      password: user?.password,
+      userRoleUser: user?.role,
+      userRoleAdmin: user?.role,
+    });
+  }, [user]);
 
   return (
     <div>
-      <div className='flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8'>
+      <div className='flex min-h-full w-full flex-1 flex-col justify-center px-6 lg:px-8'>
         <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
           <div>
             <h1 className='text-md mb-4 text-center font-bold text-black md:text-xl'>
               {user?.name} ویرایش کاربر
             </h1>
           </div>
-          <form className='space-y-6' action={() => handleSubmit()}>
+          <form
+            className='space-y-6'
+            action={async (data) => {
+              const res = await EditUserAction(data, user?.id);
+              if (res?.sucess) {
+                alert(res?.message);
+                router.push('/dashboard/users');
+              }
+            }}
+          >
             <div>
               <label
                 htmlFor='name'
@@ -126,7 +139,7 @@ const EditUserForm = ({ user }: any) => {
                     }
                     name='userRoleAdmin'
                     type='radio'
-                    checked={user?.role === 'ADMIN'}
+                    // checked={user?.role === 'ADMIN'}
                   />
                 </div>
               </div>
@@ -155,7 +168,7 @@ const EditUserForm = ({ user }: any) => {
                 />
               </div>
             </div>
-            <SubmitButton text='ثبت نام' width='w-full' />
+            <SubmitButton text='ویرایش کاربر' width='w-full' />
           </form>
         </div>
       </div>

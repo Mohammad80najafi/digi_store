@@ -17,10 +17,11 @@ const registerUserForm = () => {
           </div>
           <form
             className='space-y-6'
-            action={(formdata) => {
-              const res = CreateDashboardUserAction(formdata);
+            action={ async (formdata) => {
+              const res = await CreateDashboardUserAction(formdata);
               if (res?.sucess) {
                 alert(res?.message);
+
                 formRef.current?.reset();
               }
             }}
