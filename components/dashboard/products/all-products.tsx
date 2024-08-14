@@ -1,9 +1,15 @@
-import ProductsCart from './products-cart';
+import { prismadb } from '@/prismadb';
+import ProductsList from './products-list';
 
-const AllProducts = () => {
+const AllProducts = async () => {
+  const products = await prismadb.product.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
   return (
-    <div>
-      <ProductsCart />
+    <div className='flex items-center justify-center'>
+      <ProductsList products={products} />
     </div>
   );
 };

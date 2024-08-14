@@ -4,55 +4,33 @@ import { EditUserAction } from '@/actions/user-auth';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
-type EditUserFormProps = {
-  user:
-    | {
-        id: string;
-        name: string | null;
-        email: string | null;
-        password: string | null;
-        emailVerified: Date | null;
-        image: string | null;
-        role: string | null;
-        createdAt: Date;
-        updatedAt: Date;
-      }
-    | null
-    | undefined;
-};
-
 const EditUserForm = ({ user }: any) => {
   const router = useRouter();
-
-  const [data, setData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    userRoleUser: '',
-    userRoleAdmin: '',
-  });
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [userRoleUser, setUserRoleUser] = useState('');
+  const [userRoleAdmin, setUserRoleAdmin] = useState('');
 
   useEffect(() => {
-    setData({
-      name: user?.name,
-      email: user?.email,
-      password: user?.password,
-      userRoleUser: user?.role,
-      userRoleAdmin: user?.role,
-    });
-  }, [user]);
+    setName(user?.name);
+    setEmail(user?.email);
+    setPassword(user?.password);
+    setUserRoleUser(user?.role);
+    setUserRoleAdmin(user?.role);
+  }, []);
 
   return (
     <div>
-      <div className='flex min-h-full w-full flex-1 flex-col justify-center px-6 lg:px-8'>
+      <div className='flex min-h-full w-full flex-col justify-center px-6 lg:px-8'>
         <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
           <div>
-            <h1 className='text-md mb-4 text-center font-bold text-black md:text-xl'>
-              {user?.name} ویرایش کاربر
+            <h1 className='text-md mb-4 text-center font-bold text-white dark:text-white md:text-xl'>
+              ویرایش کاربر
             </h1>
           </div>
           <form
-            className='space-y-6'
+            className='w-full space-y-6'
             action={async (data) => {
               const res = await EditUserAction(data, user?.id);
               if (res?.sucess) {
@@ -64,7 +42,7 @@ const EditUserForm = ({ user }: any) => {
             <div>
               <label
                 htmlFor='name'
-                className='block text-sm font-semibold leading-6 text-gray-900'
+                className='block text-sm font-semibold leading-6 text-white dark:text-white'
               >
                 نام کاربری را وارد کنید
               </label>
@@ -72,7 +50,8 @@ const EditUserForm = ({ user }: any) => {
                 <input
                   id='name'
                   name='name'
-                  onChange={(e) => setData({ ...data, name: e.target.value })}
+                  onChange={(e) => setName(e.target.value)}
+                  value={name}
                   type='name'
                   required
                   autoComplete='name'
@@ -84,7 +63,7 @@ const EditUserForm = ({ user }: any) => {
             <div>
               <label
                 htmlFor='email'
-                className='block text-sm font-medium leading-6 text-gray-900'
+                className='block text-sm font-medium leading-6 text-white dark:text-white'
               >
                 ایمیل را وارد کنید
               </label>
@@ -93,7 +72,8 @@ const EditUserForm = ({ user }: any) => {
                   id='email'
                   name='email'
                   type='email'
-                  onChange={(e) => setData({ ...data, email: e.target.value })}
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
                   required
                   autoComplete='email'
                   className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
@@ -104,7 +84,7 @@ const EditUserForm = ({ user }: any) => {
             <div>
               <label
                 htmlFor='userRole'
-                className='block text-sm font-medium leading-6 text-gray-900'
+                className='block text-sm font-medium leading-6 text-white dark:text-white'
               >
                 نقش کاربر را انتخاب کنید
               </label>
@@ -112,7 +92,7 @@ const EditUserForm = ({ user }: any) => {
                 <div className='flex items-center justify-between gap-2'>
                   <label
                     htmlFor='userRoleUser'
-                    className='text-sm font-medium leading-6 text-gray-900'
+                    className='text-sm font-medium leading-6 text-white dark:text-white'
                   >
                     کاربر
                   </label>
@@ -120,26 +100,21 @@ const EditUserForm = ({ user }: any) => {
                     id='userRoleUser'
                     name='userRoleUser'
                     type='radio'
-                    onChange={(e) =>
-                      setData({ ...data, userRoleUser: e.target.value })
-                    }
+                    checked={userRoleUser === 'USER'}
                   />
                 </div>
                 <div className='flex items-center justify-between gap-2'>
                   <label
                     htmlFor='userRoleAdmin'
-                    className='text-sm font-medium leading-6 text-gray-900'
+                    className='text-sm font-medium leading-6 text-white dark:text-white'
                   >
                     ادمین
                   </label>
                   <input
                     id='userRoleAdmin'
-                    onChange={(e) =>
-                      setData({ ...data, userRoleAdmin: e.target.value })
-                    }
                     name='userRoleAdmin'
                     type='radio'
-                    // checked={user?.role === 'ADMIN'}
+                    checked={userRoleAdmin === 'ADMIN'}
                   />
                 </div>
               </div>
@@ -149,7 +124,7 @@ const EditUserForm = ({ user }: any) => {
               <div className='flex items-center justify-between'>
                 <label
                   htmlFor='password'
-                  className='block text-sm font-medium leading-6 text-gray-900'
+                  className='block text-sm font-medium leading-6 text-white dark:text-white'
                 >
                   رمز عبور را وارد کنید
                 </label>
@@ -159,9 +134,6 @@ const EditUserForm = ({ user }: any) => {
                   id='password'
                   name='password'
                   type='password'
-                  onChange={(e) =>
-                    setData({ ...data, password: e.target.value })
-                  }
                   required
                   autoComplete='current-password'
                   className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'

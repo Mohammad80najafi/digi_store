@@ -11,13 +11,13 @@ const registerUserForm = () => {
       <div className='flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8'>
         <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
           <div>
-            <h1 className='text-md mb-4 text-center font-bold text-black md:text-xl'>
+            <h1 className='text-md mb-4 text-center font-bold text-black dark:text-white md:text-xl'>
               ثبت نام
             </h1>
           </div>
           <form
             className='space-y-6'
-            action={ async (formdata) => {
+            action={async (formdata) => {
               const res = await CreateDashboardUserAction(formdata);
               if (res?.sucess) {
                 alert(res?.message);
@@ -29,7 +29,7 @@ const registerUserForm = () => {
             <div>
               <label
                 htmlFor='name'
-                className='block text-sm font-semibold leading-6 text-gray-900'
+                className='block text-sm font-semibold leading-6 text-gray-900 dark:text-white'
               >
                 نام کاربری را وارد کنید
               </label>
@@ -47,7 +47,7 @@ const registerUserForm = () => {
             <div>
               <label
                 htmlFor='email'
-                className='block text-sm font-medium leading-6 text-gray-900'
+                className='block text-sm font-medium leading-6 text-gray-900 dark:text-white'
               >
                 ایمیل را وارد کنید
               </label>
@@ -65,7 +65,7 @@ const registerUserForm = () => {
             <div>
               <label
                 htmlFor='userRole'
-                className='block text-sm font-medium leading-6 text-gray-900'
+                className='block text-sm font-medium leading-6 text-gray-900 dark:text-white'
               >
                 نقش کاربر را انتخاب کنید
               </label>
@@ -73,7 +73,7 @@ const registerUserForm = () => {
                 <div className='flex items-center justify-between gap-2'>
                   <label
                     htmlFor='userRoleUser'
-                    className='text-sm font-medium leading-6 text-gray-900'
+                    className='text-sm font-medium leading-6 text-gray-900 dark:text-white'
                   >
                     کاربر
                   </label>
@@ -82,7 +82,7 @@ const registerUserForm = () => {
                 <div className='flex items-center justify-between gap-2'>
                   <label
                     htmlFor='userRoleAdmin'
-                    className='text-sm font-medium leading-6 text-gray-900'
+                    className='text-sm font-medium leading-6 text-gray-900 dark:text-white'
                   >
                     ادمین
                   </label>
@@ -95,7 +95,7 @@ const registerUserForm = () => {
               <div className='flex items-center justify-between'>
                 <label
                   htmlFor='password'
-                  className='block text-sm font-medium leading-6 text-gray-900'
+                  className='block text-sm font-medium leading-6 text-gray-900 dark:text-white'
                 >
                   رمز عبور را وارد کنید
                 </label>

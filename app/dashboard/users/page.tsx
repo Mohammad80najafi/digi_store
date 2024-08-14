@@ -1,20 +1,21 @@
 import { auth } from '@/auth';
 import { GetAllUsersAction } from '@/actions/user-auth';
 import UsersList from '@/components/dashboard/users/users-list';
-import RegisterUserForm from '@/components/dashboard/users/register-form';
-
+import Link from 'next/link';
 const Users = async () => {
   const session = await auth();
   const users = await GetAllUsersAction();
 
   return (
-    <div className='grid w-[100%] grid-cols-1 gap-4 lg:grid-cols-12'>
-      <div className='w-[100%] place-items-center lg:col-span-4'>
-        <RegisterUserForm />
-      </div>
-      <div className='flex w-full items-center justify-center overflow-x-scroll md:overflow-hidden lg:col-span-8'>
-        <UsersList users={users} />
-      </div>
+    <div className=''>
+      <Link
+        href='/dashboard/users/create'
+        className='my-6 mr-4 rounded border-2 border-white bg-primary px-4 py-2 text-white dark:bg-gray-900 dark:text-white'
+      >
+        ساخت کاربر جدید
+      </Link>
+
+      <UsersList users={users} />
     </div>
   );
 };

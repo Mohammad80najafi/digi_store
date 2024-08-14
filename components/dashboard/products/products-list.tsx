@@ -1,10 +1,11 @@
 'use client';
 
-import { DeleteUserAction, EditUserAction } from '@/actions/user-auth';
-import { useState } from 'react';
+import Image from 'next/image';
+import { DeleteProductAction } from '@/actions/product-actions';
+import EditProductForm from './edit-product-form';
 import Modal from 'react-modal';
 import { IoClose } from 'react-icons/io5';
-import EditUserForm from './edit-user-form';
+import { useState, useEffect } from 'react';
 
 const customStyles = {
   content: {
@@ -20,13 +21,13 @@ const customStyles = {
   },
 };
 
-const UsersList = ({ users }: any) => {
+const ProductsList = ({ products }: any) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [user, setUser] = useState(null);
+  const [product, setProduct] = useState(null);
 
   return (
     <>
-      <div className='flex items-center justify-center'>
+      <div className='flex'>
         <div className='overflow-x-auto'>
           <div className='inline-block min-w-full p-1.5 align-middle'>
             <div className='overflow-hidden'>
@@ -37,19 +38,25 @@ const UsersList = ({ users }: any) => {
                       scope='col'
                       className='px-6 py-3 text-start text-lg font-medium uppercase text-gray-500 dark:text-white'
                     >
-                      نام کاربری
+                      عکس محصول
                     </th>
                     <th
                       scope='col'
                       className='px-6 py-3 text-start text-lg font-medium uppercase text-gray-500 dark:text-white'
                     >
-                      ایمیل
+                      نام محصول
                     </th>
                     <th
                       scope='col'
                       className='px-6 py-3 text-start text-lg font-medium uppercase text-gray-500 dark:text-white'
                     >
-                      دسترسی
+                      توضیحات
+                    </th>
+                    <th
+                      scope='col'
+                      className='px-6 py-3 text-start text-lg font-medium uppercase text-gray-500 dark:text-white'
+                    >
+                      قیمت
                     </th>
                     <th
                       scope='col'
@@ -60,29 +67,40 @@ const UsersList = ({ users }: any) => {
                   </tr>
                 </thead>
                 <tbody className='divide-y divide-gray-200'>
-                  {users?.map((user: any) => (
+                  {products?.map((product: any) => (
                     <tr>
-                      <td className='whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-800 dark:text-white'>
-                        {user?.name}
+                      <td className='whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-800'>
+                        <Image
+                          src={product?.image || ''}
+                          alt='product-img'
+                          width={50}
+                          height={50}
+                          className='rounded-md border object-cover shadow-md'
+                        />
                       </td>
                       <td className='whitespace-nowrap px-6 py-4 text-sm text-gray-800 dark:text-white'>
-                        {user?.email}
+                        {product?.name}
+                      </td>
+                      <td className='truncate whitespace-nowrap px-6 py-4 text-sm text-gray-800 dark:text-white'>
+                        {product?.description.substring(0, 70)}...
                       </td>
                       <td className='whitespace-nowrap px-6 py-4 text-sm text-gray-800 dark:text-white'>
-                        {user?.role}
+                        {product?.price}
                       </td>
                       <td className='flex items-center justify-center gap-4 whitespace-nowrap px-6 py-4 text-end text-sm font-medium'>
                         <button
                           type='button'
                           className='inline-flex items-center gap-x-2 rounded-lg border border-transparent text-sm font-semibold text-red-600 hover:text-red-800 focus:text-red-800 focus:outline-none disabled:pointer-events-none disabled:opacity-50'
-                          onClick={() => DeleteUserAction(user?.id)}
+                          onClick={() => {
+                            DeleteProductAction(product?.id);
+                          }}
                         >
                           حذف
                         </button>
                         <button
                           onClick={() => {
                             setModalIsOpen(true);
-                            setUser(user);
+                            setProduct(product);
                           }}
                           type='button'
                           className='inline-flex items-center gap-x-2 rounded-lg border border-transparent text-sm font-semibold text-blue-600 hover:text-blue-800 focus:text-blue-800 focus:outline-none disabled:pointer-events-none disabled:opacity-50'
@@ -104,16 +122,16 @@ const UsersList = ({ users }: any) => {
         style={customStyles}
         contentLabel='ویرایش کاربر'
       >
-        <div className='z-50 flex w-full flex-col px-8 dark:bg-gray-900 dark:text-white'>
+        <div className='z-50 flex flex-col px-8 dark:bg-gray-900 dark:text-white'>
           <IoClose
             onClick={() => setModalIsOpen(false)}
             className='right-3 top-3 h-7 w-7 text-white dark:text-white'
           />
-          <EditUserForm user={user} />
+          <EditProductForm product={product} />
         </div>
       </Modal>
     </>
   );
 };
 
-export default UsersList;
+export default ProductsList;

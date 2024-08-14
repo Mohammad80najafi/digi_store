@@ -89,23 +89,11 @@ model Product {
   id          String   @id @unique @default(cuid())
   name        String
   description String
-  price       Int
+  price       String
   image       String?
-  category    Category @relation(fields: [categoryId], references: [id])
-  categoryId  String
   orders      Order[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-}
-
-model Category {
-  id          String    @id @unique @default(cuid())
-  name        String
-  description String
-  image       String?
-  products    Product[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
 }
 
 model Order {
