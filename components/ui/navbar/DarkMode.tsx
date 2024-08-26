@@ -1,8 +1,8 @@
 'use client';
 
-import LightButton from '@/public/website/light-mode-button.png';
-import DarkButton from '@/public/website/dark-mode-button.png';
-import Image from 'next/image';
+import { FiSun } from 'react-icons/fi';
+import { FiMoon } from 'react-icons/fi';
+
 import { useEffect, useState } from 'react';
 
 const DarkMode = () => {
@@ -27,28 +27,21 @@ const DarkMode = () => {
   });
   return (
     <div className='relative'>
-      <Image
-        onClick={() => {
-          setTheme(theme === 'dark' ? 'light' : 'dark');
-        }}
-        width={12}
-        src={LightButton}
-        alt='light-button'
-        className={`absolute right-0 z-10 w-12 cursor-pointer ${
-          theme === 'dark' ? 'opacity-0' : 'opacity-100'
-        } transition-all duration-300`}
-        quality={100}
-      />
-      <Image
-        width={12}
-        onClick={() => {
-          setTheme(theme === 'dark' ? 'light' : 'dark');
-        }}
-        src={DarkButton}
-        alt='light-button'
-        className={`w-12 cursor-pointer`}
-        quality={100}
-      />
+      {theme === 'dark' ? (
+        <FiSun
+          onClick={() => {
+            setTheme(theme === 'dark' ? 'light' : 'dark');
+          }}
+          className='cursor-pointer text-2xl text-white transition-all duration-300 dark:text-white'
+        />
+      ) : (
+        <FiMoon
+          onClick={() => {
+            setTheme(theme === 'dark' ? 'light' : 'dark');
+          }}
+          className='cursor-pointer text-2xl text-black transition-all duration-300 dark:text-white'
+        />
+      )}
     </div>
   );
 };

@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'digi-store.storage.c2.liara.space',
+        hostname: 'digi.storage.c2.liara.space',
       },
       {
         protocol: 'https',

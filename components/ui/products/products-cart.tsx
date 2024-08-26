@@ -1,51 +1,51 @@
 'use client';
 
 import Image from 'next/image';
-import { BsHeart } from 'react-icons/bs';
+import { useAppDispatch, useAppSelector } from '@/redux/redux-hooks';
+import { addProduct } from '@/redux/product/productSlice';
+import { SlBasket } from 'react-icons/sl';
+import { CiStar } from 'react-icons/ci';
+import { FaStar } from 'react-icons/fa';
+import toast from 'react-hot-toast';
 
-const data  = {
-  id: 1,
-  name: '',
-  image: '',
-  eth: 12,
-  currentBid:12,
-  love: 12
-};
+const ProductsCart = ({ product }: any) => {
+  const products = useAppSelector((state) => state.product.products);
+  const dispatch = useAppDispatch();
 
-
-
-const ProductsCart = () => {
   return (
-    <div className='cursor-pointer rounded-lg border-2 border-gray-300 border-opacity-30 p-6'>
-      <div className='h-[180px] w-full'>
+    <div className='cursor-pointer rounded-lg p-6 shadow-lg dark:bg-gray-800'>
+      <div className='h-[180px] w-full border-b'>
         <Image
-          src={data.image}
-          alt={data.name}
+          src={product.image}
+          alt={product.name}
           width={300}
           height={280}
-          className='h-full w-full object-cover'
+          className='h-full w-full rounded object-cover'
         />
       </div>
       <div className=''>
-        <div className='mt-6 flex items-center justify-between'>
-          <h1 className='text-base font-bold text-blue-950 transition-all duration-200 hover:text-blue-700'>
-            {data.name}
+        <div className='mt-6 flex items-center justify-center'>
+          <h1 className='text-base font-bold text-blue-950 dark:text-white'>
+            {product.name}
           </h1>
-          <span className='rounded-md border-[1px] border-gray-500 px-2 py-1 text-xs font-bold text-green-700'>
-            {data.eth} ETH
+        </div>
+        <div className='mt-3 flex items-center justify-center'>
+          <span className='text-xl font-bold text-gray-800 dark:text-gray-200'>
+            {product.price} تومان
           </span>
         </div>
-        <p className='mb-2 mt-2 text-gray-700'>
-          Current Bids{' '}
-          <span className='text-yellow-500'>{data.currentBid}</span> ETH
-        </p>
-        <div className='mt-4 flex items-center justify-between'>
-          <h1 className='text-sm font-bold text-indigo-950'>Place Bid</h1>
-          <div className='flex items-center space-x-2 text-gray-600'>
-            <BsHeart />
-            <span className='text-sm'>{data.love}</span>
-          </div>
-        </div>
+      </div>
+      <div
+        className='mt-5 flex w-full items-center justify-center gap-4 rounded bg-gray-100 px-4 py-2 dark:bg-gray-700'
+        onClick={() => {
+          dispatch(addProduct(product));
+          // toast.success('به سبد خرید اضافه شد');
+        }}
+      >
+        <SlBasket className='text-2xl text-gray-600 dark:text-gray-400' />
+        <span className='text-2xl font-bold text-gray-600 dark:text-gray-400'>
+          خرید
+        </span>
       </div>
     </div>
   );

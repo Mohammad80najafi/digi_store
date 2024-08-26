@@ -32,7 +32,6 @@ const AddProductForm = () => {
   const submitForm = async (formData: FormData) => {
     formData.set('imagePath', imagePath);
     const res = await CreateProductAction(formData);
-    console.log('log from submit form', res);
 
     if (res?.sucess) {
       alert('محصول با موفقیت اضافه شد');
@@ -147,7 +146,9 @@ const AddProductForm = () => {
               type='submit'
               className={`w-full cursor-pointer rounded ${isImageUploading || !imageAvaliable ? 'bg-gray-400' : 'bg-primary'} `}
             >
-              <span className={`${isImageUploading ? 'animate-pulse' : ''} `}>
+              <span
+                className={`${isImageUploading ? 'animate-pulse' : ''} text-white`}
+              >
                 {isImageUploading ? 'درحال بارگذاری' : 'اضافه کردن'}
               </span>
             </button>

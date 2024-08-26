@@ -34,8 +34,6 @@ export const UpdateProductAction = async (data: FormData, id: string) => {
   const category = data.get('category') as any;
   const imagePath = data.get('imagePath') as any;
 
-  console.log('log from update product server', imagePath);
-
   const res = await prismadb.product.update({
     where: {
       id,
@@ -68,3 +66,73 @@ export const DeleteProductAction = async (id: string) => {
   }
   return { sucess: false, msg: 'خطا در حذف محصول' };
 };
+
+export const GetAllProductsCountAction = async () => {
+  const res = await prismadb.product.count();
+  return res;
+};
+
+export const GetAllProductsAction = async () => {
+  const res = await prismadb.product.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+
+  return res;
+};
+
+export const BuyProductAction = async (data: any) => {
+  const id = data.get('id') as string;
+  const userId = data.get('userId') as string;
+  const productId = data.get('productId') as string;
+
+  try {
+    const exitstProduct = await prismadb.product.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (exitstProduct) {
+      return {
+        success: true,
+        msg: 'این محصول از قبل در سبد خرید شما موجود است',
+      };
+    }
+
+    const res = await prismadb.order.create({
+      data: {
+        userId,
+        productId,
+      },
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const GetTenProductsAction = async () => {
+  const res = await prismadb.product.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+    take: 10,
+  });
+
+  return res;
+};
+
+export const GetLastProductsAction = async () => {
+  try {
+    const products = await prismadb.product.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 4,
+    });
+    return products;
+  } catch (error) {
+    console.log('error in get last products action', error);
+  }
+};
+

@@ -12,13 +12,8 @@ const Menu = ({ vertical = false, session }: MenuProps) => {
   const MenuLinks = [
     {
       id: 1,
-      name: 'Home',
+      name: 'صفحه اصلی',
       href: '/',
-    },
-    {
-      id: 2,
-      name: 'Store',
-      href: '/store',
     },
   ];
 
@@ -45,7 +40,7 @@ const Menu = ({ vertical = false, session }: MenuProps) => {
                 usePathname() === '/dashboard' ? 'text-primary' : ''
               }`}
             >
-              Dashboard
+              پنل ادمین
             </Link>
           </li>
         ) : null}

@@ -1,11 +1,11 @@
-import {
-  GetAllUsersCountAction,
-  GetAllAdminUsersCount,
-  GetAllUsersAction,
-} from '@/actions/user-auth';
+import { GetAllUsersCountAction } from '@/actions/user-auth';
+import { GetAllProductsCountAction } from '@/actions/product-actions';
 import { auth } from '@/auth';
 import Link from 'next/link';
+import DashboardSomary from '@/components/dashboard/dashboard-somary';
 import LastUsers from '@/components/dashboard/users/last-users';
+import LastProducts from '@/components/dashboard/products/last-products';
+import LastOrders from '@/components/dashboard/orders/last-orders';
 
 const Dashboard = async () => {
   const session = await auth();
@@ -15,74 +15,44 @@ const Dashboard = async () => {
         <h1 className='mt-5 text-center text-2xl font-bold text-black dark:text-white'>
           🤷‍♂️🤷‍♂️🤷‍♂️ شما به این صفحه دسترسی ندارید
         </h1>
-        <Link href='/'>
-          <button className='mt-5 rounded-full bg-primary px-4 py-2 text-white'>
-            بازگشت به صفحه اصلی
-          </button>
+        <Link
+          href='/'
+          className='mt-5 rounded-full bg-primary px-4 py-2 text-white'
+        >
+          بازگشت به صفحه اصلی
         </Link>
       </div>
     );
   }
 
   const allUsersCount = await GetAllUsersCountAction();
-  const allAdminsCount = await GetAllAdminUsersCount();
-  const AllUsers = await GetAllUsersAction();
+  const allProductsCount = await GetAllProductsCountAction();
 
   return (
-    <div className='container flex w-[100%] flex-col items-center justify-center'>
-      <div className='min-w-fitw-[80%] mt-5 grid grid-cols-1 place-items-center gap-16 md:grid-cols-2 lg:grid-cols-3'>
-        {/* users box */}
-        <div className='flex cursor-pointer flex-col items-center justify-center rounded-md bg-blue-500 px-20 py-4'>
-          <Link href='/dashboard/users' className='text-white'>
-            <h1 className='block divide-y-2 divide-solid divide-gray-800 border-b-2 py-2 text-center text-xl font-bold'>
-              کاربران
-            </h1>
-            <div className='flex flex-col items-center justify-center gap-4 py-5 text-slate-200'>
-              <span>کاربران : {allUsersCount}</span>
-              <span>ادمین ها: {allAdminsCount}</span>
-            </div>
-          </Link>
-        </div>
-        {/* orders box */}
-        <div className='flex cursor-pointer flex-col items-center justify-center rounded-md bg-green-500 px-20 py-4'>
-          <Link href='/dashboard/users' className='text-white'>
-            <h1 className='divide-y-2 divide-gray-800 border-b-2 py-2 text-center text-xl font-bold'>
-              سفارشات
-            </h1>
-            <div className='flex flex-col items-center justify-center gap-4 py-5 text-slate-200'>
-              <span>کل سفارشات : 12</span>
-              <span>تحویل شده: 3</span>
-            </div>
-          </Link>
-        </div>
-        {/* settings box */}
-        <div className='flex cursor-pointer flex-col items-center justify-center rounded-md bg-red-500 px-20 py-4'>
-          <Link href='/dashboard/users' className='text-white'>
-            <h1 className='divide-y-2 divide-gray-800 border-b-2 py-2 text-center text-xl font-bold'>
-              کل محصولات
-            </h1>
-            <div className='flex flex-col items-center justify-center gap-4 py-5 text-slate-200'>
-              <span>کل محصولات : 12</span>
-              <span>دسته بندی ها: 3</span>
-            </div>
-          </Link>
-        </div>
+    <div className='container flex w-[100%] flex-col gap-y-4'>
+      <div className='flex flex-col items-center justify-center gap-y-4'>
+        <DashboardSomary
+          allUsersCount={allUsersCount}
+          allProductsCount={allProductsCount}
+        />
+        <span className='text-center text-xl font-semibold text-gray-400 dark:text-primary'>
+          آخرین محصولات ثبت شده
+        </span>
+        <LastProducts />
       </div>
       <div className='flex items-center justify-between'>
-        {/* last users  */}
-        <div className='flex items-start justify-center'>
-          <div className='flex flex-col items-center justify-center gap-4 py-5 text-slate-200'>
-            <span className='text-xl font-bold text-black'>
-              {' '}
-              آخرین کاربران ثبت نام شده :
-            </span>
-            <LastUsers users={AllUsers} />
-          </div>
+        <div className='flex flex-col items-center justify-center gap-y-4'>
+          <span className='text-center text-xl font-semibold text-gray-400 dark:text-primary'>
+            آخرین کاربران ثبت شده
+          </span>
+          <LastUsers />
         </div>
-        {/* last producrs */}
-        <div></div>
-        {/* last orders  */}
-        <div></div>
+        <div className='flex flex-col items-center justify-center gap-y-4'>
+          <span className='text-center text-xl font-semibold text-gray-400 dark:text-primary'>
+            در انتظار پرداخت
+          </span>
+          <LastOrders />
+        </div>
       </div>
     </div>
   );

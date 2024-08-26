@@ -199,3 +199,17 @@ export const EditUserAction = async (formdata: any, userId: any) => {
     console.log('error in edit user action', error);
   }
 };
+
+export const GetLastUsersAction = async () => {
+  try {
+    const users = await prismadb.user.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 4,
+    });
+    return users;
+  } catch (error) {
+    console.log('error in get last users action', error);
+  }
+};

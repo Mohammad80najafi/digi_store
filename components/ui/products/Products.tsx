@@ -1,15 +1,17 @@
 import ProductsCart from './products-cart';
+import { GetTenProductsAction } from '@/actions/product-actions';
 
-const products = () => {
+const products = async () => {
+  const products = await GetTenProductsAction();
   return (
-    <div>
-      <h1 className='text-center text-xl font-bold text-primary underline underline-offset-8 md:text-4xl'>
-        All Products
+    <div className='container'>
+      <h1 className='text-center text-xl font-semibold text-gray-600 dark:text-white md:text-4xl'>
+        جدیدترین محصولات
       </h1>
-      <div className='mdLmt-16 mx-auto mt-8 grid w-4/5 grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-        <div>
-          <ProductsCart />
-        </div>
+      <div className='mt-5 grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+        {products.map((product: any) => (
+          <ProductsCart product={product} key={product.id} />
+        ))}
       </div>
     </div>
   );

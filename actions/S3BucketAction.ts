@@ -22,7 +22,7 @@ export const S3UploadAction = async (data: FormData) => {
   const ImageName = `${Date.now()}-${file.name}`;
 
   const params = {
-    Bucket: 'digi-store',
+    Bucket: 'digi',
     Key: ImageName,
     Body: buffer,
   };
@@ -31,7 +31,7 @@ export const S3UploadAction = async (data: FormData) => {
     await s3.send(new PutObjectCommand(params));
     return {
       success: true,
-      imagePath: `https://digi-store.storage.c2.liara.space/${ImageName}`,
+      imagePath: `https://digi.storage.c2.liara.space/${ImageName}`,
     };
   } catch (e) {
     return { e };

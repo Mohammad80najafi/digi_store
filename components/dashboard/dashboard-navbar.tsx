@@ -10,7 +10,6 @@ import { MdSpaceDashboard } from 'react-icons/md';
 
 const DashboardNavbar = () => {
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(false);
 
   const isOpenlinks = [
     {
@@ -44,87 +43,29 @@ const DashboardNavbar = () => {
       href: '/dashboard/settings',
     },
   ];
-  const isCloselinks = [
-    {
-      id: 1,
-      icon: <MdSpaceDashboard />,
-      href: '/dashboard',
-    },
-    {
-      id: 2,
-      icon: <FaUsers />,
-      href: '/dashboard/users',
-    },
-    {
-      id: 3,
-      icon: <AiFillProduct />,
-      href: '/dashboard/products',
-    },
-    {
-      id: 4,
-      icon: <TbReorder />,
-      href: '/dashboard/orders',
-    },
-    {
-      id: 5,
-      icon: <IoSettingsSharp />,
-      href: '/dashboard/settings',
-    },
-  ];
 
   return (
-    <div className=''>
-      {isOpen === true ? (
-        <div className='relative hidden w-full items-center bg-white px-4 py-10 shadow-lg transition-all duration-300 ease-in-out dark:bg-gray-900 md:flex md:px-10'>
-          <FaArrowDown
-            className='absolute right-4 top-4 cursor-pointer text-2xl text-gray-900 dark:text-slate-400'
-            onClick={() => setIsOpen(false)}
-          />
-          {isOpenlinks.map((data, index) => (
-            <Link
-              key={index}
-              href={data.href}
-              className={`z-200 mr-4 mt-5 w-full text-xl text-gray-900 dark:text-slate-400 md:text-3xl`}
+    <div className='relative flex items-center gap-8 bg-white px-4 py-4 shadow-lg dark:bg-gray-900'>
+      {isOpenlinks.map((data, index) => (
+        <Link
+          key={index}
+          href={data.href}
+          className={`z-200 w-full text-xl text-gray-900 dark:text-slate-400 md:text-3xl`}
+        >
+          <div className='flex items-center justify-center gap-2'>
+            <span
+              className={`${pathname === data.href ? 'text-primary dark:text-white' : ''}`}
             >
-              <div className='flex items-center justify-center gap-4'>
-                <span
-                  className={`${pathname === data.href ? 'text-primary dark:text-white' : ''}`}
-                >
-                  {' '}
-                  {isOpenlinks[index].icon}{' '}
-                </span>
-                <h3
-                  className={`gep-4 flex items-end justify-center ${pathname === data.href ? 'text-gray-900 dark:text-white' : ''}`}
-                >
-                  {isOpenlinks[index].name}
-                </h3>
-              </div>
-            </Link>
-          ))}
-        </div>
-      ) : (
-        <div className='mb-3 w-screen'>
-          <div className='relative mx-auto flex w-[70%] items-center rounded-l-full rounded-r-full bg-white px-1 py-4 shadow-lg transition-all duration-500 ease-in-out dark:bg-gray-900 md:px-10'>
-            <FaArrowUp
-              onClick={() => setIsOpen(true)}
-              className='text-md absolute top-3 hidden cursor-pointer text-white dark:text-slate-400 md:right-8 md:inline-block'
-            />
-            {isCloselinks.map((data, index) => (
-              <Link
-                key={index}
-                href={data.href}
-                className={`relative flex w-full items-center justify-center text-xl text-gray-900 transition-all duration-500 ease-in-out dark:text-slate-400 md:mt-0 md:text-3xl`}
-              >
-                <h3
-                  className={`transition-all ease-in ${pathname === isCloselinks[index].href ? 'text-primary dark:text-white' : ''}`}
-                >
-                  {isCloselinks[index].icon}
-                </h3>
-              </Link>
-            ))}
+              {isOpenlinks[index].icon}
+            </span>
+            <h3
+              className={`gep-4 flex items-end justify-center font-semibold ${pathname === data.href ? 'text-primary dark:text-white' : ''}`}
+            >
+              {isOpenlinks[index].name}
+            </h3>
           </div>
-        </div>
-      )}
+        </Link>
+      ))}
     </div>
   );
 };

@@ -1,12 +1,11 @@
-'use client';
-
-import { useAppSelector, useAppDispatch } from '@/redux/redux-hooks';
+import { GetLastProductsAction } from '@/actions/product-actions';
 import Image from 'next/image';
 
-const Orders = () => {
-  const products = useAppSelector((state) => state.product.products);
+
+const LastProducts = async () => {
+  const products = await GetLastProductsAction();
   return (
-    <div className='flex h-screen w-screen items-center justify-center'>
+    <div className='flex items-center justify-center'>
       <div className='overflow-x-auto'>
         <div className='inline-block min-w-full p-1.5 align-middle'>
           <div className='overflow-hidden'>
@@ -17,7 +16,7 @@ const Orders = () => {
                     scope='col'
                     className='px-6 py-3 text-start text-lg font-medium uppercase text-gray-500 dark:text-white'
                   >
-                    عکس محصول
+                    تصویر
                   </th>
                   <th
                     scope='col'
@@ -31,6 +30,7 @@ const Orders = () => {
                   >
                     توضیحات
                   </th>
+
                   <th
                     scope='col'
                     className='px-6 py-3 text-start text-lg font-medium uppercase text-gray-500 dark:text-white'
@@ -42,7 +42,7 @@ const Orders = () => {
               <tbody className='divide-y divide-gray-200'>
                 {products?.map((product: any) => (
                   <tr key={product?.id}>
-                    <td className='whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-800'>
+                    <td className='whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-800 dark:text-white'>
                       <Image
                         src={product?.image || ''}
                         alt='product-img'
@@ -54,7 +54,7 @@ const Orders = () => {
                     <td className='whitespace-nowrap px-6 py-4 text-sm text-gray-800 dark:text-white'>
                       {product?.name}
                     </td>
-                    <td className='truncate whitespace-nowrap px-6 py-4 text-sm text-gray-800 dark:text-white'>
+                    <td className='whitespace-nowrap px-6 py-4 text-sm text-gray-800 dark:text-white'>
                       {product?.description.substring(0, 70)}...
                     </td>
                     <td className='whitespace-nowrap px-6 py-4 text-sm text-gray-800 dark:text-white'>
@@ -71,4 +71,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default LastProducts;

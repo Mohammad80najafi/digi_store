@@ -5,7 +5,7 @@ import { DeleteProductAction } from '@/actions/product-actions';
 import EditProductForm from './edit-product-form';
 import Modal from 'react-modal';
 import { IoClose } from 'react-icons/io5';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const customStyles = {
   content: {

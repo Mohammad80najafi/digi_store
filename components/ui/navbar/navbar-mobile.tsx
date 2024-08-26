@@ -7,20 +7,28 @@ import NavbarLoign from './navbar-login';
 import DarkMode from './DarkMode';
 import { BiX } from 'react-icons/bi';
 import Menu from './menu';
+import Link from 'next/link';
+import ShoppingCartBasket from './shopping-cart-basket';
 
 const NavbarMobile = ({ session }: any) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div>
-      <IoMenu
-        onClick={() => setIsOpen(!isOpen)}
-        className={`cursor-pointer text-2xl lg:hidden ${
-          isOpen ? 'rotate-180' : ''
-        }`}
-      />
+    <div className='w-full'>
+      <div className='flex w-full items-center justify-between'>
+        <IoMenu
+          onClick={() => setIsOpen(!isOpen)}
+          className={`cursor-pointer text-2xl dark:text-white lg:hidden ${
+            isOpen ? 'rotate-180' : ''
+          }`}
+        />
+        <Link href='/' className='text-primary text-2xl font-semibold uppercase tracking-widest'>
+          Digi
+        </Link>
+        <ShoppingCartBasket />
+      </div>
       {isOpen && (
-        <div className='fixed right-0 top-0 z-50 h-screen w-[320px] bg-white p-0 transition-all duration-300 dark:bg-[#1b1b1b]'>
+        <div className='fixed left-0 top-40 z-50 w-[320px] rounded-md bg-white p-0 transition-all duration-300 dark:bg-[#1b1b1b] md:w-[400px]'>
           <BiX
             onClick={() => setIsOpen(false)}
             className='absolute left-4 top-4 cursor-pointer text-2xl text-black dark:text-white'
@@ -32,7 +40,7 @@ const NavbarMobile = ({ session }: any) => {
             </div>
           </div>
           <div className='flex w-full items-center justify-center gap-5 p-4 transition-all duration-200'>
-            <Menu vertical={true} />
+            <Menu vertical={true} session={session} />
           </div>
         </div>
       )}
