@@ -65,8 +65,6 @@ export default function HeroSection() {
             className="absolute inset-0"
           >
             <img
-              width={360}
-              height={260}
               src={currentSlide.image}
               alt={currentSlide.title}
               className="h-full w-full object-cover"
