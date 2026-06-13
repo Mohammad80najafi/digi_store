@@ -1,0 +1,24 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    @apply bg-white dark:bg-black;
+  }
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+  cursor: pointer;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-text-muted);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
