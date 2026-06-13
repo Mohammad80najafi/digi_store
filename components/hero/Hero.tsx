@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import Image from 'next/image'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -40,6 +41,7 @@ const slides = [
 
 export default function HeroSection() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [imageError, setImageError] = useState<Record<number, boolean>>({})
 
   const currentSlide = slides[currentIndex]
   const totalSlides = slides.length
@@ -54,7 +56,7 @@ export default function HeroSection() {
 
   return (
     <section className="w-full overflow-hidden rounded-b-2xl text-white">
-      <div className="relative mx-auto min-h-100 min-w-full md:min-h-180">
+      <div className="relative mx-auto min-h-[400px] min-w-full md:min-h-[720px]">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide.id}
@@ -64,16 +66,27 @@ export default function HeroSection() {
             transition={{ duration: 0.6, ease: 'easeOut' }}
             className="absolute inset-0"
           >
-            <img
-              src={currentSlide.image}
-              alt={currentSlide.title}
-              className="h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-linear-to-l from-black/80 via-black/45 to-black/25" />
+            {imageError[currentSlide.id] ? (
+              <div className="flex h-full w-full items-center justify-center bg-gray-800">
+                <span className="text-white">تصویر در دسترس نیست</span>
+              </div>
+            ) : (
+              <Image
+                src={currentSlide.image}
+                alt={currentSlide.title}
+                fill
+                className="object-cover"
+                priority
+                onError={() => {
+                  setImageError((prev) => ({ ...prev, [currentSlide.id]: true }))
+                }}
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-black/45 to-black/25" />
           </motion.div>
         </AnimatePresence>
 
-        <div className="relative z-10 mx-auto flex min-h-155 w-full max-w-7xl items-center px-5 py-16 sm:px-8 md:min-h-180 lg:px-12">
+        <div className="relative z-10 mx-auto flex min-h-[620px] w-full max-w-7xl items-center px-5 py-16 sm:px-8 md:min-h-[720px] lg:px-12">
           <div className="max-w-2xl text-right">
             <AnimatePresence mode="wait">
               <motion.div
@@ -83,19 +96,6 @@ export default function HeroSection() {
                 exit={{ opacity: 0, x: -45 }}
                 transition={{ duration: 0.45, ease: 'easeOut' }}
               >
-                {/* <h1 className="text-4xl leading-tight font-black tracking-tight text-black sm:text-5xl lg:text-7xl dark:text-white">
-                  {currentSlide.title}
-                </h1> */}
-
-                {/* <p className="mt-6 max-w-xl text-base leading-8 text-white/80 sm:text-lg">
-                  {currentSlide.subtitle}
-                </p> */}
-
-                {/* <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:justify-start">
-                  <button className="rounded-2xl bg-white px-7 py-4 text-sm font-bold text-slate-950 shadow-xl transition hover:-translate-y-1 hover:bg-white/90">
-                    {currentSlide.buttonText}
-                  </button>
-                </div> */}
               </motion.div>
             </AnimatePresence>
           </div>
@@ -116,11 +116,10 @@ export default function HeroSection() {
                 key={slide.id}
                 onClick={() => setCurrentIndex(index)}
                 aria-label={`رفتن به اسلاید ${index + 1}`}
-                className={`h-2 rounded-full transition-all ${
-                  index === currentIndex
-                    ? 'w-8 bg-white'
-                    : 'w-2 bg-white/40 hover:bg-white/70'
-                }`}
+                className={`h-2 rounded-full transition-all ${index === currentIndex
+                  ? 'w-8 bg-white'
+                  : 'w-2 bg-white/40 hover:bg-white/70'
+                  }`}
               />
             ))}
           </div>
