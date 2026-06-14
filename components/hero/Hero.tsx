@@ -1,160 +1,123 @@
 'use client'
-import { useState, useEffect, useRef, useCallback } from 'react'
-import Image from 'next/image'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '@/lib/cn'
+
+import { useRef } from 'react'
+import Link from 'next/link'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay, Pagination, EffectFade } from 'swiper/modules'
+import type { Swiper as SwiperType } from 'swiper'
+import { motion } from 'framer-motion'
+import { ArrowLeft } from 'lucide-react'
+
+import 'swiper/css'
+import 'swiper/css/pagination'
+import 'swiper/css/effect-fade'
 
 const slides = [
-  { id: 1, image: '/images/banner/1.webp' },
-  { id: 2, image: '/images/banner/2.webp' },
-  { id: 3, image: '/images/banner/3.gif' },
-  { id: 4, image: '/images/banner/4.webp' },
+  {
+    id: 1,
+    image: '/images/banner/1.webp',
+    title: 'ژوپیتر',
+    subtitle: 'انتخابی اقتصادی بر مدار نیازهای تو!',
+    cta: 'مشاهده محصولات',
+    href: '/store',
+  },
+  {
+    id: 2,
+    image: '/images/banner/2.webp',
+    title: 'تابستون تو راهه!',
+    subtitle: 'با تخفیف‌های ویژه آماده شو',
+    cta: 'شروع خرید',
+    href: '/store',
+  },
+  {
+    id: 3,
+    image: '/images/banner/4.webp',
+    title: 'جدیدترین محصولات',
+    subtitle: 'هارد و فلش با بهترین قیمت',
+    cta: 'خرید کنید',
+    href: '/store',
+  },
 ]
 
 export default function HeroSection() {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [imageError, setImageError] = useState<Record<number, boolean>>({})
-  const timerRef = useRef<NodeJS.Timeout | null>(null)
-  const currentSlide = slides[currentIndex]
-  const totalSlides = slides.length
-
-  const slideVariants = {
-    enter: {
-      opacity: 0,
-      scale: 1.1,
-      filter: 'blur(8px)',
-    },
-    center: {
-      opacity: 1,
-      scale: 1,
-      filter: 'blur(0px)',
-    },
-    exit: {
-      opacity: 0,
-      scale: 0.92,
-      filter: 'blur(6px)',
-    },
-  }
-
-  const kenBurnsVariants = {
-    initial: { scale: 1, x: 0 },
-    animate: {
-      scale: [1, 1.06],
-      x: [0, -10],
-      transition: {
-        duration: 6,
-        ease: 'linear',
-        repeat: Infinity,
-        repeatType: 'reverse' as const,
-      },
-    },
-  }
-
-  const goToSlide = useCallback((index: number) => {
-    setCurrentIndex(index)
-  }, [])
-
-  const goNext = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % totalSlides)
-  }, [totalSlides])
-
-  const goPrev = useCallback(() => {
-    setCurrentIndex((prev) => (prev - 1 + totalSlides) % totalSlides)
-  }, [totalSlides])
-
-  const resetTimer = useCallback(() => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current)
-    }
-    timerRef.current = setInterval(goNext, 6000)
-  }, [goNext])
-
-  useEffect(() => {
-    resetTimer()
-    return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current)
-      }
-    }
-  }, [resetTimer])
+  const swiperRef = useRef<SwiperType | null>(null)
 
   return (
-    <section
-      className="w-full overflow-hidden relative"
-      onMouseEnter={() => {
-        if (timerRef.current) clearInterval(timerRef.current)
-      }}
-      onMouseLeave={resetTimer}
-    >
-      <div className="relative mx-auto min-h-[500px] sm:min-h-[600px] md:min-h-[700px] lg:min-h-[800px]">
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={currentSlide.id}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute inset-0"
-          >
-            {imageError[currentSlide.id] ? (
-              <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
-                <span className="text-white text-lg font-medium">تصویر در دسترس نیست</span>
-              </div>
-            ) : (
-              <motion.div
-                variants={kenBurnsVariants}
-                initial="initial"
-                animate="animate"
-                className="absolute inset-0"
-              >
-                <Image
-                  src={currentSlide.image}
-                  alt="Hero banner"
-                  fill
-                  className="object-cover"
-                  priority
-                  onError={() => setImageError(prev => ({ ...prev, [currentSlide.id]: true }))}
-                />
-              </motion.div>
-            )}
-          </motion.div>
-        </AnimatePresence>
-
-        <div className="absolute bottom-8 right-0 left-0 z-20 mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="flex gap-2">
-            {slides.map((slide, index) => (
-              <button
-                key={slide.id}
-                onClick={() => goToSlide(index)}
-                aria-label={`رفتن به اسلاید ${index + 1}`}
-                className={cn(
-                  "h-2 rounded-full transition-all duration-300 ease-out",
-                  index === currentIndex ? "w-10 bg-white" : "w-3 bg-white/40 hover:bg-white/70"
-                )}
+    <section dir="rtl" className="relative w-full">
+      <Swiper
+        modules={[Autoplay, Pagination, EffectFade]}
+        effect="fade"
+        fadeEffect={{ crossFade: true }}
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        pagination={{ clickable: true }}
+        loop
+        speed={800}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper
+        }}
+        className="hero-swiper h-[340px] w-full sm:h-[420px] lg:h-[520px]"
+      >
+        {slides.map((slide, index) => (
+          <SwiperSlide key={slide.id}>
+            <div className="relative h-full w-full">
+              {/* Background image */}
+              <img
+                src={slide.image}
+                alt={slide.title}
+                className="absolute inset-0 h-full w-full object-cover"
               />
-            ))}
-          </div>
 
-          <div className="flex gap-3">
-            <button
-              onClick={goPrev}
-              aria-label="اسلاید قبلی"
-              className="group grid h-12 w-12 place-items-center rounded-2xl border border-white/30 bg-white/10 text-white backdrop-blur-md transition-all hover:bg-white hover:text-slate-900 active:scale-95"
-            >
-              <ChevronRight className="w-6 h-6 transition-transform group-hover:translate-x-1" />
-            </button>
-            <button
-              onClick={goNext}
-              aria-label="اسلاید بعدی"
-              className="group grid h-12 w-12 place-items-center rounded-2xl border border-white/30 bg-white/10 text-white backdrop-blur-md transition-all hover:bg-white hover:text-slate-900 active:scale-95"
-            >
-              <ChevronLeft className="w-6 h-6 transition-transform group-hover:-translate-x-1" />
-            </button>
-          </div>
-        </div>
-      </div>
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-linear-to-l from-black/70 via-black/30 to-transparent" />
+
+              {/* Content */}
+              <div className="relative z-10 flex h-full items-center">
+                <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
+                  <motion.div
+                    key={slide.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    className="max-w-lg"
+                  >
+                    <h1 className="text-3xl leading-tight font-black text-white drop-shadow-lg sm:text-5xl lg:text-6xl">
+                      {slide.title}
+                    </h1>
+
+                    <p className="mt-3 text-base font-medium text-white/85 drop-shadow sm:text-lg lg:mt-4 lg:text-xl">
+                      {slide.subtitle}
+                    </p>
+
+                    <Link
+                      href={slide.href}
+                      className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-6 py-2.5 text-sm font-bold text-neutral-900 shadow-lg transition-all duration-300 hover:bg-orange-500 hover:text-white hover:shadow-xl sm:mt-6 sm:px-8 sm:py-3 sm:text-base"
+                    >
+                      {slide.cta}
+                      <ArrowLeft className="h-4 w-4 rotate-180" />
+                    </Link>
+                  </motion.div>
+                </div>
+              </div>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      {/* Custom pagination styling */}
+      <style>{`
+        .hero-swiper .swiper-pagination-bullet {
+          width: 10px;
+          height: 10px;
+          background: rgba(255, 255, 255, 0.5);
+          opacity: 1;
+          transition: all 0.3s;
+        }
+        .hero-swiper .swiper-pagination-bullet-active {
+          width: 28px;
+          border-radius: 5px;
+          background: #fff;
+        }
+      `}</style>
     </section>
   )
 }
