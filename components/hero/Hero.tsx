@@ -14,39 +14,52 @@ const slides = [
 
 export default function HeroSection() {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [direction, setDirection] = useState(0)
   const [imageError, setImageError] = useState<Record<number, boolean>>({})
   const timerRef = useRef<NodeJS.Timeout | null>(null)
   const currentSlide = slides[currentIndex]
   const totalSlides = slides.length
 
   const slideVariants = {
-    enter: (dir: number) => ({
-      x: dir > 0 ? '100%' : '-100%',
-      opacity: 0
-    }),
-    center: {
-      x: 0,
-      opacity: 1
+    enter: {
+      opacity: 0,
+      scale: 1.1,
+      filter: 'blur(8px)',
     },
-    exit: (dir: number) => ({
-      x: dir < 0 ? '100%' : '-100%',
-      opacity: 0
-    })
+    center: {
+      opacity: 1,
+      scale: 1,
+      filter: 'blur(0px)',
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.92,
+      filter: 'blur(6px)',
+    },
+  }
+
+  const kenBurnsVariants = {
+    initial: { scale: 1, x: 0 },
+    animate: {
+      scale: [1, 1.06],
+      x: [0, -10],
+      transition: {
+        duration: 6,
+        ease: 'linear',
+        repeat: Infinity,
+        repeatType: 'reverse' as const,
+      },
+    },
   }
 
   const goToSlide = useCallback((index: number) => {
-    setDirection(index > currentIndex ? 1 : -1)
     setCurrentIndex(index)
-  }, [currentIndex])
+  }, [])
 
   const goNext = useCallback(() => {
-    setDirection(1)
     setCurrentIndex((prev) => (prev + 1) % totalSlides)
   }, [totalSlides])
 
   const goPrev = useCallback(() => {
-    setDirection(-1)
     setCurrentIndex((prev) => (prev - 1 + totalSlides) % totalSlides)
   }, [totalSlides])
 
@@ -75,15 +88,14 @@ export default function HeroSection() {
       onMouseLeave={resetTimer}
     >
       <div className="relative mx-auto min-h-[500px] sm:min-h-[600px] md:min-h-[700px] lg:min-h-[800px]">
-        <AnimatePresence initial={false} custom={direction}>
+        <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={currentSlide.id}
-            custom={direction}
             variants={slideVariants}
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ x: { type: 'spring', stiffness: 300, damping: 30 }, opacity: { duration: 0.3 } }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="absolute inset-0"
           >
             {imageError[currentSlide.id] ? (
@@ -91,14 +103,21 @@ export default function HeroSection() {
                 <span className="text-white text-lg font-medium">تصویر در دسترس نیست</span>
               </div>
             ) : (
-              <Image
-                src={currentSlide.image}
-                alt="Hero banner"
-                fill
-                className="object-cover"
-                priority
-                onError={() => setImageError(prev => ({ ...prev, [currentSlide.id]: true }))}
-              />
+              <motion.div
+                variants={kenBurnsVariants}
+                initial="initial"
+                animate="animate"
+                className="absolute inset-0"
+              >
+                <Image
+                  src={currentSlide.image}
+                  alt="Hero banner"
+                  fill
+                  className="object-cover"
+                  priority
+                  onError={() => setImageError(prev => ({ ...prev, [currentSlide.id]: true }))}
+                />
+              </motion.div>
             )}
           </motion.div>
         </AnimatePresence>
