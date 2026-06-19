@@ -3,7 +3,16 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Mail, Lock, User, Phone, ArrowLeft, Eye, EyeOff, CheckCircle } from 'lucide-react'
+import {
+  Mail,
+  Lock,
+  User,
+  Phone,
+  ArrowLeft,
+  Eye,
+  EyeOff,
+  CheckCircle,
+} from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { useUser } from '@/store/user'
 
@@ -18,7 +27,13 @@ export default function PurpleLoginCard() {
   const [mode, setMode] = useState<AuthMode>('login')
   const [showPassword, setShowPassword] = useState(false)
   const [loginForm, setLoginForm] = useState({ email: '', password: '' })
-  const [registerForm, setRegisterForm] = useState({ name: '', email: '', phone: '', password: '', confirmPassword: '' })
+  const [registerForm, setRegisterForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    password: '',
+    confirmPassword: '',
+  })
   const [loginError, setLoginError] = useState('')
   const [registerSuccess, setRegisterSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -31,14 +46,24 @@ export default function PurpleLoginCard() {
       const res = await fetch('/api/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: loginForm.email, password: loginForm.password, action: 'login' }),
+        body: JSON.stringify({
+          email: loginForm.email,
+          password: loginForm.password,
+          action: 'login',
+        }),
       })
       const data = await res.json()
       if (!res.ok) {
         setLoginError(data.error || 'خطا در ورود')
         return
       }
-      updateProfile({ name: data.name, email: data.email, phone: data.phone || '', address: '', image: '' })
+      updateProfile({
+        name: data.name,
+        email: data.email,
+        phone: data.phone || '',
+        address: '',
+        image: '',
+      })
       router.push('/profile')
     } catch {
       setLoginError('خطا در ارتباط با سرور')
@@ -72,7 +97,13 @@ export default function PurpleLoginCard() {
         setLoginError(data.error || 'خطا در ثبت نام')
         return
       }
-      updateProfile({ name: data.name, email: data.email, phone: data.phone || '', address: '', image: '' })
+      updateProfile({
+        name: data.name,
+        email: data.email,
+        phone: data.phone || '',
+        address: '',
+        image: '',
+      })
       setRegisterSuccess(true)
       setTimeout(() => router.push('/profile'), 1500)
     } catch {
@@ -83,13 +114,16 @@ export default function PurpleLoginCard() {
   }
 
   return (
-    <section dir="rtl" className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-10 dark:bg-black">
+    <section
+      dir="rtl"
+      className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-10 dark:bg-black"
+    >
       <div className="w-full max-w-md">
         {/* Card */}
         <div className="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-xl shadow-gray-200/50 dark:border-gray-800 dark:bg-zinc-950 dark:shadow-none">
           {/* Header */}
           <div className="relative px-8 pt-10 pb-8 text-center">
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-violet-500 shadow-lg shadow-blue-500/25">
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-br from-blue-500 to-violet-500 shadow-lg shadow-blue-500/25">
               <span className="text-2xl font-black text-white">D</span>
             </div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -105,7 +139,10 @@ export default function PurpleLoginCard() {
           {/* Tabs */}
           <div className="mx-8 flex rounded-xl bg-gray-100 p-1 dark:bg-zinc-800">
             <button
-              onClick={() => { setMode('login'); setLoginError('') }}
+              onClick={() => {
+                setMode('login')
+                setLoginError('')
+              }}
               className={cn(
                 'flex-1 rounded-lg py-2.5 text-sm font-medium transition-all duration-200',
                 mode === 'login'
@@ -116,7 +153,10 @@ export default function PurpleLoginCard() {
               ورود
             </button>
             <button
-              onClick={() => { setMode('register'); setLoginError('') }}
+              onClick={() => {
+                setMode('register')
+                setLoginError('')
+              }}
               className={cn(
                 'flex-1 rounded-lg py-2.5 text-sm font-medium transition-all duration-200',
                 mode === 'register'
@@ -129,7 +169,7 @@ export default function PurpleLoginCard() {
           </div>
 
           {/* Forms */}
-          <div className="px-8 pb-10 pt-6">
+          <div className="px-8 pt-6 pb-10">
             <AnimatePresence mode="wait">
               {mode === 'login' ? (
                 <motion.form
@@ -142,12 +182,16 @@ export default function PurpleLoginCard() {
                   className="space-y-4"
                 >
                   <div>
-                    <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">ایمیل</label>
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      ایمیل
+                    </label>
                     <div className="relative">
                       <input
                         type="email"
                         value={loginForm.email}
-                        onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
+                        onChange={(e) =>
+                          setLoginForm({ ...loginForm, email: e.target.value })
+                        }
                         placeholder="example@email.com"
                         className={inputClass}
                         dir="ltr"
@@ -158,12 +202,19 @@ export default function PurpleLoginCard() {
                   </div>
 
                   <div>
-                    <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">رمز عبور</label>
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      رمز عبور
+                    </label>
                     <div className="relative">
                       <input
                         type={showPassword ? 'text' : 'password'}
                         value={loginForm.password}
-                        onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+                        onChange={(e) =>
+                          setLoginForm({
+                            ...loginForm,
+                            password: e.target.value,
+                          })
+                        }
                         placeholder="••••••••"
                         className={inputClass}
                         required
@@ -174,17 +225,27 @@ export default function PurpleLoginCard() {
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                       >
-                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
                       </button>
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between text-xs">
                     <label className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
-                      <input type="checkbox" className="h-3.5 w-3.5 rounded border-gray-300 accent-blue-500" />
+                      <input
+                        type="checkbox"
+                        className="h-3.5 w-3.5 rounded border-gray-300 accent-blue-500"
+                      />
                       مرا به خاطر بسپار
                     </label>
-                    <a href="#" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
+                    <a
+                      href="#"
+                      className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400"
+                    >
                       فراموشی رمز عبور؟
                     </a>
                   </div>
@@ -213,12 +274,19 @@ export default function PurpleLoginCard() {
                   className="space-y-4"
                 >
                   <div>
-                    <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">نام کامل</label>
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      نام کامل
+                    </label>
                     <div className="relative">
                       <input
                         type="text"
                         value={registerForm.name}
-                        onChange={(e) => setRegisterForm({ ...registerForm, name: e.target.value })}
+                        onChange={(e) =>
+                          setRegisterForm({
+                            ...registerForm,
+                            name: e.target.value,
+                          })
+                        }
                         placeholder="نام خود را وارد کنید"
                         className={inputClass}
                         required
@@ -228,12 +296,19 @@ export default function PurpleLoginCard() {
                   </div>
 
                   <div>
-                    <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">ایمیل</label>
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      ایمیل
+                    </label>
                     <div className="relative">
                       <input
                         type="email"
                         value={registerForm.email}
-                        onChange={(e) => setRegisterForm({ ...registerForm, email: e.target.value })}
+                        onChange={(e) =>
+                          setRegisterForm({
+                            ...registerForm,
+                            email: e.target.value,
+                          })
+                        }
                         placeholder="example@email.com"
                         className={inputClass}
                         dir="ltr"
@@ -244,12 +319,19 @@ export default function PurpleLoginCard() {
                   </div>
 
                   <div>
-                    <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">تلفن</label>
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      تلفن
+                    </label>
                     <div className="relative">
                       <input
                         type="tel"
                         value={registerForm.phone}
-                        onChange={(e) => setRegisterForm({ ...registerForm, phone: e.target.value })}
+                        onChange={(e) =>
+                          setRegisterForm({
+                            ...registerForm,
+                            phone: e.target.value,
+                          })
+                        }
                         placeholder="۰۹۱۲۱۲۳۴۵۶۷"
                         className={inputClass}
                         dir="ltr"
@@ -259,12 +341,19 @@ export default function PurpleLoginCard() {
                   </div>
 
                   <div>
-                    <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">رمز عبور</label>
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      رمز عبور
+                    </label>
                     <div className="relative">
                       <input
                         type={showPassword ? 'text' : 'password'}
                         value={registerForm.password}
-                        onChange={(e) => setRegisterForm({ ...registerForm, password: e.target.value })}
+                        onChange={(e) =>
+                          setRegisterForm({
+                            ...registerForm,
+                            password: e.target.value,
+                          })
+                        }
                         placeholder="••••••••"
                         className={inputClass}
                         required
@@ -275,18 +364,29 @@ export default function PurpleLoginCard() {
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                       >
-                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
                       </button>
                     </div>
                   </div>
 
                   <div>
-                    <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">تکرار رمز عبور</label>
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      تکرار رمز عبور
+                    </label>
                     <div className="relative">
                       <input
                         type={showPassword ? 'text' : 'password'}
                         value={registerForm.confirmPassword}
-                        onChange={(e) => setRegisterForm({ ...registerForm, confirmPassword: e.target.value })}
+                        onChange={(e) =>
+                          setRegisterForm({
+                            ...registerForm,
+                            confirmPassword: e.target.value,
+                          })
+                        }
                         placeholder="••••••••"
                         className={inputClass}
                         required
@@ -325,14 +425,20 @@ export default function PurpleLoginCard() {
           {mode === 'login' ? (
             <>
               حساب ندارید؟{' '}
-              <button onClick={() => setMode('register')} className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
+              <button
+                onClick={() => setMode('register')}
+                className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400"
+              >
                 ثبت نام کنید
               </button>
             </>
           ) : (
             <>
               حساب دارید؟{' '}
-              <button onClick={() => setMode('login')} className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
+              <button
+                onClick={() => setMode('login')}
+                className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400"
+              >
                 وارد شوید
               </button>
             </>

@@ -32,7 +32,9 @@ export default function HeroSection() {
       .then((r) => r.json())
       .then((data) => {
         if (Array.isArray(data)) {
-          setSlides(data.sort((a: HeroSlide, b: HeroSlide) => a.order - b.order))
+          setSlides(
+            data.sort((a: HeroSlide, b: HeroSlide) => a.order - b.order),
+          )
         }
         setLoading(false)
       })
@@ -60,7 +62,7 @@ export default function HeroSection() {
         onSwiper={(swiper) => {
           swiperRef.current = swiper
         }}
-        className="hero-swiper h-[340px] w-full sm:h-[420px] lg:h-[520px]"
+        className="hero-swiper h-85 w-full sm:h-105 lg:h-130"
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={slide._id}>
