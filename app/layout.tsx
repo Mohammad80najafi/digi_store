@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
 import { Providers } from '../utils/providers'
+import CartDrawer from '@/components/cart/CartDrawer'
 
 const vazir = localFont({
   src: '../public/fonts/vazirMatn/Vazirmatn-regular.ttf',
@@ -31,6 +32,7 @@ export default function RootLayout({
     >
       <body>
         <Providers>{children}</Providers>
+        <CartDrawer />
       </body>
     </html>
   )

@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { BadgeCheck, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
@@ -7,72 +8,30 @@ import { Navigation } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 
-const brands = [
-  {
-    id: 1,
-
-    name: 'Huawei',
-
-    logo: '/images/brands/huawei.webp',
-  },
-
-  {
-    id: 2,
-
-    name: 'JBL',
-
-    logo: '/images/brands/adata.webp',
-  },
-
-  {
-    id: 3,
-
-    name: 'Nokia',
-
-    logo: '/images/brands/nokia.webp',
-  },
-
-  {
-    id: 4,
-
-    name: 'Asus',
-
-    logo: '/images/brands/asus.webp',
-  },
-
-  {
-    id: 5,
-
-    name: 'Apple',
-
-    logo: '/images/brands/apple.webp',
-  },
-
-  {
-    id: 6,
-
-    name: 'Xiaomi',
-
-    logo: '/images/brands/xiaomi.webp',
-  },
-
-  {
-    id: 7,
-
-    name: 'Samsung',
-
-    logo: '/images/brands/samsung.webp',
-  },
-]
+type Brand = {
+  _id: string
+  name: string
+  logo: string
+}
 
 export default function SelectedBrandsSwiper() {
+  const [brands, setBrands] = useState<Brand[]>([])
+
+  useEffect(() => {
+    fetch('/api/brands')
+      .then((res) => res.json())
+      .then(setBrands)
+      .catch(console.error)
+  }, [])
+
+  if (brands.length === 0) return null
+
   return (
     <section className="w-full bg-white px-4 py-8 transition-colors duration-300 sm:px-6 lg:px-8 dark:bg-black">
       <div
         dir="rtl"
         className="mx-auto flex max-w-7xl overflow-hidden rounded-[26px] border border-slate-200 bg-white shadow-sm transition-colors duration-300 dark:border-white/10 dark:bg-neutral-950"
       >
-        {/* Title Box */}
         <div className="flex w-42.5 shrink-0 items-center justify-center bg-linear-to-l from-blue-900 to-cyan-600 px-4 text-white sm:w-57.5 lg:w-65">
           <div className="flex flex-col items-center gap-3 text-center">
             <BadgeCheck className="h-9 w-9 sm:h-11 sm:w-11" strokeWidth={2.2} />
@@ -82,9 +41,7 @@ export default function SelectedBrandsSwiper() {
           </div>
         </div>
 
-        {/* Swiper Area */}
         <div className="relative min-w-0 flex-1">
-          {/* Navigation Buttons */}
           <button
             className="brand-swiper-prev absolute top-1/2 right-4 z-20 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white text-slate-600 shadow-lg transition hover:bg-slate-100 hover:text-blue-700 sm:h-11 sm:w-11 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
             aria-label="قبلی"
@@ -110,26 +67,16 @@ export default function SelectedBrandsSwiper() {
             slidesPerView={1.4}
             spaceBetween={0}
             breakpoints={{
-              480: {
-                slidesPerView: 2,
-              },
-              640: {
-                slidesPerView: 2.5,
-              },
-              768: {
-                slidesPerView: 3,
-              },
-              1024: {
-                slidesPerView: 4,
-              },
-              1280: {
-                slidesPerView: 5,
-              },
+              480: { slidesPerView: 2 },
+              640: { slidesPerView: 2.5 },
+              768: { slidesPerView: 3 },
+              1024: { slidesPerView: 4 },
+              1280: { slidesPerView: 5 },
             }}
             className="h-35 px-14 sm:h-42.5"
           >
             {brands.map((brand) => (
-              <SwiperSlide key={brand.id}>
+              <SwiperSlide key={brand._id}>
                 <div className="flex h-35 items-center justify-center border-l border-blue-200/80 px-8 sm:h-42.5 dark:border-white/10">
                   <img
                     src={brand.logo}

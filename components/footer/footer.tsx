@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
 
 import {
   MapPin,
@@ -11,7 +12,24 @@ import {
   AirVent,
 } from 'lucide-react'
 
+type SiteSettings = {
+  siteName?: string
+  siteDescription?: string
+  address?: string
+  phone?: string
+  email?: string
+}
+
 const Footer = () => {
+  const [settings, setSettings] = useState<SiteSettings>({})
+
+  useEffect(() => {
+    fetch('/api/settings')
+      .then((r) => r.json())
+      .then(setSettings)
+      .catch(() => {})
+  }, [])
+
   return (
     <footer className="border-t border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900">
       <div className="mx-auto max-w-7xl px-6 py-12">
@@ -19,10 +37,10 @@ const Footer = () => {
           {/* Brand & Description */}
           <div className="lg:col-span-1">
             <h2 className="mb-3 text-2xl font-bold text-gray-900 dark:text-white">
-              دیجی استور
+              {settings.siteName || 'دیجی استور'}
             </h2>
             <p className="leading-relaxed text-gray-600 dark:text-gray-400">
-              ارایه دهنده محصولات دیجیتال
+              {settings.siteDescription || 'ارایه دهنده محصولات دیجیتال'}
             </p>
 
             <div className="mt-6 flex gap-4">
@@ -69,7 +87,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/contact-us"
+                  href="/about-us"
                   className="transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   درباره ما
@@ -77,7 +95,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/contact-us"
+                  href="/store"
                   className="transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   خدمات
@@ -149,18 +167,24 @@ const Footer = () => {
               تماس با ما
             </h3>
             <div className="space-y-4 text-gray-600 dark:text-gray-400">
-              <div className="flex items-center gap-3">
-                <MapPin size={20} />
-                <span>تهران، جنوب تهران</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Phone size={20} />
-                <span dir="ltr">۰۲۱-۱۲۳۴۵۶۷۸</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Mail size={20} />
-                <span>najafimohammad2808@gmail.com</span>
-              </div>
+              {settings.address && (
+                <div className="flex items-center gap-3">
+                  <MapPin size={20} />
+                  <span>{settings.address}</span>
+                </div>
+              )}
+              {settings.phone && (
+                <div className="flex items-center gap-3">
+                  <Phone size={20} />
+                  <span dir="ltr">{settings.phone}</span>
+                </div>
+              )}
+              {settings.email && (
+                <div className="flex items-center gap-3">
+                  <Mail size={20} />
+                  <span>{settings.email}</span>
+                </div>
+              )}
             </div>
           </div>
         </div>

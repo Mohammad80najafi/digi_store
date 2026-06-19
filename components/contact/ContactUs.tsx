@@ -1,37 +1,40 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Send, MapPin, Phone, Mail, Clock } from 'lucide-react'
 
-const contactInfo = [
-  {
-    icon: MapPin,
-    title: 'آدرس',
-    value: 'تهران، جنوب تهران',
-  },
-  {
-    icon: Phone,
-    title: 'تلفن',
-    value: '۰۲۱-۱۲۳۴۵۶۷۸',
-  },
-  {
-    icon: Mail,
-    title: 'ایمیل',
-    value: 'najafimohammad2808@gmail.com',
-  },
-  {
-    icon: Clock,
-    title: 'ساعت کاری',
-    value: 'شنبه تا پنجشنبه ۹ صبح تا ۶ عصر',
-  },
-]
+type SiteSettings = {
+  address?: string
+  phone?: string
+  email?: string
+  workingHours?: string
+}
+
+const defaultIcons = [MapPin, Phone, Mail, Clock]
+
+const defaultLabels = ['آدرس', 'تلفن', 'ایمیل', 'ساعت کاری']
 
 export default function ContactUs() {
+  const [settings, setSettings] = useState<SiteSettings>({})
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: '',
   })
+
+  useEffect(() => {
+    fetch('/api/settings')
+      .then((r) => r.json())
+      .then(setSettings)
+      .catch(() => {})
+  }, [])
+
+  const contactInfo = [
+    { icon: defaultIcons[0], title: defaultLabels[0], value: settings.address || '' },
+    { icon: defaultIcons[1], title: defaultLabels[1], value: settings.phone || '' },
+    { icon: defaultIcons[2], title: defaultLabels[2], value: settings.email || '' },
+    { icon: defaultIcons[3], title: defaultLabels[3], value: settings.workingHours || '' },
+  ].filter((item) => item.value)
 
   const handleChange = (
     e: React.ChangeEvent<

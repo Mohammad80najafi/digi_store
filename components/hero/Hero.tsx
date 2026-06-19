@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination, EffectFade } from 'swiper/modules'
@@ -12,35 +12,40 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/effect-fade'
 
-const slides = [
-  {
-    id: 1,
-    image: '/images/banner/1.webp',
-    title: 'ژوپیتر',
-    subtitle: 'انتخابی اقتصادی بر مدار نیازهای تو!',
-    cta: 'مشاهده محصولات',
-    href: '/store',
-  },
-  {
-    id: 2,
-    image: '/images/banner/2.webp',
-    title: 'تابستون تو راهه!',
-    subtitle: 'با تخفیف‌های ویژه آماده شو',
-    cta: 'شروع خرید',
-    href: '/store',
-  },
-  {
-    id: 3,
-    image: '/images/banner/4.webp',
-    title: 'جدیدترین محصولات',
-    subtitle: 'هارد و فلش با بهترین قیمت',
-    cta: 'خرید کنید',
-    href: '/store',
-  },
-]
+type HeroSlide = {
+  _id: string
+  image: string
+  title: string
+  subtitle: string
+  cta: string
+  href: string
+  order: number
+}
 
 export default function HeroSection() {
   const swiperRef = useRef<SwiperType | null>(null)
+  const [slides, setSlides] = useState<HeroSlide[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch('/api/hero-slides')
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setSlides(data.sort((a: HeroSlide, b: HeroSlide) => a.order - b.order))
+        }
+        setLoading(false)
+      })
+      .catch(() => setLoading(false))
+  }, [])
+
+  if (loading || slides.length === 0) {
+    return (
+      <section dir="rtl" className="relative w-full">
+        <div className="h-[340px] w-full bg-gray-100 sm:h-[420px] lg:h-[520px] dark:bg-zinc-900" />
+      </section>
+    )
+  }
 
   return (
     <section dir="rtl" className="relative w-full">
@@ -58,7 +63,7 @@ export default function HeroSection() {
         className="hero-swiper h-[340px] w-full sm:h-[420px] lg:h-[520px]"
       >
         {slides.map((slide, index) => (
-          <SwiperSlide key={slide.id}>
+          <SwiperSlide key={slide._id}>
             <div className="relative h-full w-full">
               {/* Background image */}
               <img
@@ -74,7 +79,7 @@ export default function HeroSection() {
               <div className="relative z-10 flex h-full items-center">
                 <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
                   <motion.div
-                    key={slide.id}
+                    key={slide._id}
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}

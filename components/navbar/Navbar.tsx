@@ -2,17 +2,21 @@
 import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import Link from 'next/link'
+import { ShoppingBag } from 'lucide-react'
+import { useCart } from '@/store/cart'
 
 const navItems = [
   { id: 1, title: 'خانه', href: '/' },
   { id: 2, title: 'فروشگاه', href: '/store' },
-  { id: 3, title: 'ارتباط با ما', href: '/contact-us' },
+  { id: 3, title: 'درباره ما', href: '/about-us' },
+  { id: 4, title: 'ارتباط با ما', href: '/contact-us' },
 ]
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
+  const { toggleCart, totalItems } = useCart()
 
   useEffect(() => {
     setMounted(true)
@@ -100,6 +104,19 @@ export default function Navbar() {
 
         {/* Left side: logo */}
         <div className="flex items-center gap-3">
+          {/* Cart button */}
+          <button
+            onClick={toggleCart}
+            className="relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-black transition dark:bg-black dark:text-white"
+          >
+            <ShoppingBag className="h-5 w-5" />
+            {totalItems() > 0 && (
+              <span className="absolute -top-1 -left-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-black px-1 text-[10px] font-bold text-white dark:bg-white dark:text-black">
+                {totalItems()}
+              </span>
+            )}
+          </button>
+
           {/* Theme toggle */}
           <button
             onClick={toggleTheme}

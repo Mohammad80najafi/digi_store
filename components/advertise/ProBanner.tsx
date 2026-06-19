@@ -1,38 +1,34 @@
-const banners = [
-  {
-    id: 1,
-    image: '/images/banner/1.webp',
-    title: 'ژوپیتر',
-    subtitle: 'انتخابی اقتصادی بر مدار نیازهای تو!',
-    brand: 'J U P I T E R',
-    button: 'خرید',
-    align: 'right',
-  },
-  {
-    id: 2,
-    image: '/images/banner/2.webp',
-    title: 'تابستون تو راهه!',
-    subtitle: 'خرید کتاب به راهه!',
-    button: 'شروع خرید',
-    align: 'right',
-  },
-  {
-    id: 3,
-    image: '/images/banner/4.webp',
-    title: 'تابستون تو راهه!',
-    subtitle: 'خرید هارد و فلش به راهه!',
-    button: 'شروع خرید',
-    align: 'right',
-  },
-]
+'use client'
+
+import { useEffect, useState } from 'react'
+
+type Banner = {
+  _id: string
+  image: string
+  title: string
+  subtitle: string
+  brand?: string
+  button: string
+}
 
 export default function PromoBanners() {
+  const [banners, setBanners] = useState<Banner[]>([])
+
+  useEffect(() => {
+    fetch('/api/banners')
+      .then((res) => res.json())
+      .then(setBanners)
+      .catch(console.error)
+  }, [])
+
+  if (banners.length === 0) return null
+
   return (
     <section className="w-full bg-white px-4 py-8 transition-colors duration-300 sm:px-6 lg:px-8 dark:bg-black">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {banners.map((banner) => (
           <div
-            key={banner.id}
+            key={banner._id}
             dir="rtl"
             className="group relative h-45 overflow-hidden rounded-[22px] bg-neutral-200 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:h-50 lg:h-52.5 dark:bg-neutral-900"
           >
@@ -42,10 +38,8 @@ export default function PromoBanners() {
               className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
 
-            {/* Soft overlay */}
             <div className="absolute inset-0 bg-linear-to-l from-black/45 via-black/10 to-transparent" />
 
-            {/* Content */}
             <div className="absolute inset-0 flex items-center justify-end p-5 text-right sm:p-6">
               <div className="max-w-[68%]">
                 <h3 className="text-2xl leading-tight font-black text-white drop-shadow-md sm:text-3xl lg:text-4xl">
