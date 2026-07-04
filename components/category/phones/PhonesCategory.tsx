@@ -54,12 +54,12 @@ export default function ProductSlider() {
 
         <Swiper
           modules={[Pagination, Autoplay]}
-          spaceBetween={24}
-          slidesPerView={1.1}
+          spaceBetween={12}
+          slidesPerView={2}
           pagination={{ clickable: true }}
           autoplay={{ delay: 3000, disableOnInteraction: false }}
           breakpoints={{
-            640: { slidesPerView: 2, spaceBetween: 4 },
+            640: { slidesPerView: 2, spaceBetween: 16 },
             1024: { slidesPerView: 3, spaceBetween: 18 },
             1280: { slidesPerView: 4, spaceBetween: 24 },
           }}
