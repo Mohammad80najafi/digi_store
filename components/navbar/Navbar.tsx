@@ -4,6 +4,7 @@ import { useTheme } from 'next-themes'
 import Link from 'next/link'
 import { ShoppingBag } from 'lucide-react'
 import { useCart } from '@/store/cart'
+import { useUser } from '@/store/user'
 
 const navItems = [
   { id: 1, title: 'خانه', href: '/' },
@@ -17,6 +18,7 @@ export default function Navbar() {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
   const { toggleCart, totalItems } = useCart()
+  const { profile } = useUser()
 
   useEffect(() => {
     setMounted(true)
@@ -160,6 +162,16 @@ export default function Navbar() {
             )}
           </button>
 
+          {profile.role === 'admin' && (
+            <Link
+              href="/admin"
+              className={
+                'hidden h-11 items-center justify-center rounded-full bg-blue-600 px-4 text-sm font-medium text-white transition sm:flex md:px-6 md:text-base hover:bg-blue-700'
+              }
+            >
+              پنل مدیریت
+            </Link>
+          )}
           <Link
             href="/profile"
             dir="rtl"
@@ -167,7 +179,7 @@ export default function Navbar() {
               'md:11.5 hidden h-11 items-center justify-center rounded-full bg-white px-4 text-sm font-medium text-black transition sm:flex md:px-6 md:text-base dark:bg-black dark:text-white'
             }
           >
-            mamad@email.com
+            {profile.email || 'ورود'}
           </Link>
         </div>
       </div>
@@ -190,6 +202,16 @@ export default function Navbar() {
                 </Link>
               </li>
             ))}
+            {profile.role === 'admin' && (
+              <li>
+                <Link
+                  href="/admin"
+                  className="flex h-11 items-center justify-center rounded-full bg-blue-600 text-sm font-medium text-white hover:bg-blue-700"
+                >
+                  پنل مدیریت
+                </Link>
+              </li>
+            )}
             <li>
               <Link
                 href="/profile"
@@ -198,7 +220,7 @@ export default function Navbar() {
                   'mt-2 flex h-11 items-center justify-center rounded-full bg-black text-sm font-medium text-white dark:bg-white dark:text-black'
                 }
               >
-                mamd@email.com
+                {profile.email || 'ورود'}
               </Link>
             </li>
           </ul>
