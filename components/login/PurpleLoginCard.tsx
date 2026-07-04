@@ -21,7 +21,7 @@ type AuthMode = 'login' | 'register'
 const inputClass =
   'w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 pr-11 text-sm text-gray-900 transition outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-900 dark:text-white'
 
-export default function PurpleLoginCard() {
+export default function LoginCard() {
   const router = useRouter()
   const { updateProfile } = useUser()
   const [mode, setMode] = useState<AuthMode>('login')
@@ -193,7 +193,7 @@ export default function PurpleLoginCard() {
                           setLoginForm({ ...loginForm, email: e.target.value })
                         }
                         placeholder="example@email.com"
-                        className={inputClass}
+                        className={cn(inputClass, 'px-8')}
                         dir="ltr"
                         required
                       />
@@ -243,7 +243,7 @@ export default function PurpleLoginCard() {
                       مرا به خاطر بسپار
                     </label>
                     <a
-                      href="#"
+                      href="/auth"
                       className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400"
                     >
                       فراموشی رمز عبور؟
@@ -262,6 +262,16 @@ export default function PurpleLoginCard() {
                     {loading ? 'در حال پردازش...' : 'ورود'}
                     <ArrowLeft className="h-4 w-4" />
                   </button>
+
+                  <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-700 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-400">
+                    <p className="mb-1 font-medium">ورود مدیر</p>
+                    <p>
+                      ایمیل: <span className="font-mono">admin@gmail.com</span>
+                    </p>
+                    <p>
+                      رمز عبور: <span className="font-mono">admin123</span>
+                    </p>
+                  </div>
                 </motion.form>
               ) : (
                 <motion.form
@@ -310,7 +320,7 @@ export default function PurpleLoginCard() {
                           })
                         }
                         placeholder="example@email.com"
-                        className={inputClass}
+                        className={cn(inputClass, 'px-8')}
                         dir="ltr"
                         required
                       />
@@ -333,7 +343,7 @@ export default function PurpleLoginCard() {
                           })
                         }
                         placeholder="۰۹۱۲۱۲۳۴۵۶۷"
-                        className={inputClass}
+                        className={cn(inputClass, 'px-8')}
                         dir="ltr"
                       />
                       <Phone className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />

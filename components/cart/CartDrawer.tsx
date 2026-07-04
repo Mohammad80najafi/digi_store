@@ -8,7 +8,16 @@ import { cn } from '@/lib/cn'
 import { toPersianPrice, toPersianNumber } from '@/lib/price'
 
 export default function CartDrawer() {
-  const { items, isOpen, closeCart, removeItem, updateQuantity, clearCart, totalItems, totalPrice } = useCart()
+  const {
+    items,
+    isOpen,
+    closeCart,
+    removeItem,
+    updateQuantity,
+    clearCart,
+    totalItems,
+    totalPrice,
+  } = useCart()
 
   return (
     <AnimatePresence>
@@ -97,7 +106,9 @@ export default function CartDrawer() {
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
                               <button
-                                onClick={() => updateQuantity(item._id, item.quantity - 1)}
+                                onClick={() =>
+                                  updateQuantity(item._id, item.quantity - 1)
+                                }
                                 className="flex h-7 w-7 items-center justify-center rounded-full border border-gray-200 transition hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-zinc-800"
                               >
                                 <Minus className="h-3 w-3" />
@@ -106,7 +117,9 @@ export default function CartDrawer() {
                                 {toPersianNumber(item.quantity)}
                               </span>
                               <button
-                                onClick={() => updateQuantity(item._id, item.quantity + 1)}
+                                onClick={() =>
+                                  updateQuantity(item._id, item.quantity + 1)
+                                }
                                 className="flex h-7 w-7 items-center justify-center rounded-full border border-gray-200 transition hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-zinc-800"
                               >
                                 <Plus className="h-3 w-3" />

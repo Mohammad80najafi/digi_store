@@ -3,7 +3,15 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Star, ShoppingCart, Heart, ChevronLeft, Truck, Shield, RotateCcw } from 'lucide-react'
+import {
+  Star,
+  ShoppingCart,
+  Heart,
+  ChevronLeft,
+  Truck,
+  Shield,
+  RotateCcw,
+} from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { useCart } from '@/store/cart'
 import { useFavorites } from '@/store/favorites'
@@ -42,15 +50,24 @@ export default function ProductDetail({ product }: { product: Product }) {
   }, [product.category, product._id])
 
   return (
-    <div dir="rtl" className="min-h-screen bg-gray-50 pt-28 pb-16 dark:bg-black">
+    <div
+      dir="rtl"
+      className="min-h-screen bg-gray-50 pt-28 pb-16 dark:bg-black"
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Breadcrumbs */}
         <nav className="mb-8 text-sm text-gray-500 dark:text-gray-400">
-          <Link href="/" className="transition hover:text-gray-900 dark:hover:text-white">
+          <Link
+            href="/"
+            className="transition hover:text-gray-900 dark:hover:text-white"
+          >
             خانه
           </Link>
           <span className="mx-2">/</span>
-          <Link href="/store" className="transition hover:text-gray-900 dark:hover:text-white">
+          <Link
+            href="/store"
+            className="transition hover:text-gray-900 dark:hover:text-white"
+          >
             فروشگاه
           </Link>
           <span className="mx-2">/</span>
@@ -110,7 +127,9 @@ export default function ProductDetail({ product }: { product: Product }) {
               </span>
               <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
                 <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                <span className="font-medium">{toPersianNumber(product.rating)}</span>
+                <span className="font-medium">
+                  {toPersianNumber(product.rating)}
+                </span>
               </div>
             </div>
 
@@ -132,7 +151,7 @@ export default function ProductDetail({ product }: { product: Product }) {
             </div>
 
             <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center">
-              <div className="flex items-center overflow-hidden rounded-full border border-gray-300 dark:border-gray-700">
+              <div className="flex items-center justify-center overflow-hidden rounded-full border border-gray-300 dark:border-gray-700">
                 <button
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                   className="flex h-12 w-12 items-center justify-center text-lg font-bold transition hover:bg-gray-100 dark:hover:bg-zinc-800"
@@ -152,13 +171,16 @@ export default function ProductDetail({ product }: { product: Product }) {
 
               <button
                 onClick={() => {
-                  addItem({
-                    _id: product._id,
-                    title: product.title,
-                    category: product.category,
-                    price: product.price,
-                    image: product.image,
-                  }, quantity)
+                  addItem(
+                    {
+                      _id: product._id,
+                      title: product.title,
+                      category: product.category,
+                      price: product.price,
+                      image: product.image,
+                    },
+                    quantity,
+                  )
                   openCart()
                 }}
                 className="flex flex-1 items-center justify-center gap-2 rounded-full bg-black px-8 py-3.5 text-sm font-bold text-white transition hover:bg-gray-800 sm:text-base dark:bg-white dark:text-black dark:hover:bg-gray-200"
@@ -185,9 +207,7 @@ export default function ProductDetail({ product }: { product: Product }) {
                     : 'border-gray-300 text-gray-500 hover:border-red-300 hover:text-red-500 dark:border-gray-700 dark:text-gray-400',
                 )}
               >
-                <Heart
-                  className={cn('h-5 w-5', isFav && 'fill-current')}
-                />
+                <Heart className={cn('h-5 w-5', isFav && 'fill-current')} />
               </button>
             </div>
 

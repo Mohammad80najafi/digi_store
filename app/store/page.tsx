@@ -63,19 +63,19 @@ export default function StorePage() {
 
   useEffect(() => {
     const currentLoader = loaderRef.current
+    if (!currentLoader) return
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
           setVisibleCount((prev) => prev + 8)
         }
       },
-      { threshold: 1 },
+      { threshold: 0.1 },
     )
-    if (currentLoader) observer.observe(currentLoader)
-    return () => {
-      if (currentLoader) observer.unobserve(currentLoader)
-    }
-  }, [])
+    observer.observe(currentLoader)
+    return () => observer.disconnect()
+  }, [filteredProducts.length])
 
   return (
     <>
@@ -163,7 +163,7 @@ export default function StorePage() {
             </div>
 
             {visibleProducts.length > 0 ? (
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+              <div className="grid grid-cols-2 gap-3 sm:gap-6 xl:grid-cols-3">
                 {visibleProducts.map((product) => (
                   <ProductCard key={product._id} product={product} />
                 ))}
@@ -196,26 +196,26 @@ function ProductCard({ product }: { product: Product }) {
   return (
     <a
       href={`/store/${product._id.replace(/-\d+$/, '')}`}
-      className="group block rounded-3xl border border-gray-200 bg-white p-4 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-gray-800 dark:bg-zinc-950"
+      className="group block rounded-2xl border border-gray-200 bg-white p-2 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:rounded-3xl sm:p-4 dark:border-gray-800 dark:bg-zinc-950"
     >
       <div className="overflow-hidden rounded-2xl bg-gray-100 dark:bg-gray-900">
         <img
           src={product.image}
           alt={product.title}
-          className="h-64 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="h-36 w-full rounded-xl object-cover transition-transform duration-500 group-hover:scale-105 sm:rounded-2xl sm:h-64"
         />
       </div>
       <div className="mt-4">
         <div className="mb-2 flex items-center justify-between">
-          <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-black dark:text-gray-300">
+          <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] text-gray-600 sm:px-3 sm:py-1 sm:text-xs dark:bg-black dark:text-gray-300">
             {product.category}
           </span>
-          <span className="text-sm text-gray-500 dark:text-gray-400">
+          <span className="text-[10px] text-gray-500 sm:text-sm dark:text-gray-400">
             ⭐ {toPersianNumber(product.rating)}
           </span>
         </div>
-        <h3 className="line-clamp-1 text-lg font-semibold">{product.title}</h3>
-        <div className="mt-4 flex items-center justify-between">
+        <h3 className="line-clamp-1 text-sm font-semibold sm:text-lg">{product.title}</h3>
+        <div className="mt-2 flex items-center justify-between gap-1 sm:mt-4">
           <button
             onClick={(e) => {
               e.preventDefault()
@@ -227,11 +227,11 @@ function ProductCard({ product }: { product: Product }) {
                 image: product.image,
               })
             }}
-            className="rounded-full bg-black px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+            className="rounded-full bg-black px-3 py-1.5 text-xs font-medium text-white transition hover:bg-gray-800 sm:px-4 sm:py-2 sm:text-sm dark:bg-white dark:text-black dark:hover:bg-gray-200"
           >
             افزودن
           </button>
-          <p className="text-xl font-bold">{toPersianPrice(product.price)} تومان</p>
+          <p className="text-xs font-bold sm:text-xl">{toPersianPrice(product.price)} تومان</p>
         </div>
       </div>
     </a>

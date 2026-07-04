@@ -51,19 +51,19 @@ const Footer = () => {
                 <Home size={22} />
               </Link>
               <Link
-                href="#"
+                href="/"
                 className="text-gray-500 transition-colors hover:text-pink-600 dark:hover:text-pink-400"
               >
                 <AArrowDown size={22} />
               </Link>
               <Link
-                href="#"
+                href="/"
                 className="text-gray-500 transition-colors hover:text-blue-700 dark:hover:text-blue-400"
               >
                 <Activity size={22} />
               </Link>
               <Link
-                href="#"
+                href="/"
                 className="text-gray-500 transition-colors hover:text-sky-500 dark:hover:text-sky-400"
               >
                 <AirVent size={22} />
@@ -128,7 +128,7 @@ const Footer = () => {
             <ul className="space-y-3 text-gray-600 dark:text-gray-400">
               <li>
                 <a
-                  href="#"
+                  href="/"
                   className="transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   سوالات متداول
@@ -136,7 +136,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/"
                   className="transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   شرایط و قوانین
@@ -144,7 +144,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/"
                   className="transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                 >
                   حریم خصوصی
