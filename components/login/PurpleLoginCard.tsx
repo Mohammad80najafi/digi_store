@@ -65,7 +65,7 @@ export default function LoginCard() {
         image: '',
         role: data.role,
       })
-      router.push('/profile')
+      router.push('/')
     } catch {
       setLoginError('خطا در ارتباط با سرور')
     } finally {
@@ -106,7 +106,7 @@ export default function LoginCard() {
         image: '',
       })
       setRegisterSuccess(true)
-      setTimeout(() => router.push('/profile'), 1500)
+      setTimeout(() => router.push('/'), 1500)
     } catch {
       setLoginError('خطا در ارتباط با سرور')
     } finally {

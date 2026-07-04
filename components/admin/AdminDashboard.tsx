@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
 import {
   Package,
   ShoppingCart,
@@ -22,6 +23,7 @@ import {
   Images,
   Users,
   Settings,
+  Home,
 } from 'lucide-react'
 import { Product } from '@/lib/products'
 import { toPersianPrice, toPersianNumber } from '@/lib/price'
@@ -159,8 +161,19 @@ export default function AdminDashboard() {
           </button>
         </div>
 
+        {/* Home link */}
+        <div className="mt-4 px-3">
+          <Link
+            href="/"
+            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-500 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-zinc-800 dark:hover:text-white"
+          >
+            <Home className="h-5 w-5 shrink-0" />
+            {sidebarOpen && <span>صفحه اصلی</span>}
+          </Link>
+        </div>
+
         {/* Nav items */}
-        <nav className="mt-4 flex flex-col gap-1 px-3">
+        <nav className="mt-2 flex flex-col gap-1 px-3">
           {navItems.map((item) => {
             const isActive = activeTab === item.id
             return (
