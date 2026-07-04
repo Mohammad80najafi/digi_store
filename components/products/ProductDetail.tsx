@@ -259,6 +259,113 @@ export default function ProductDetail({ product }: { product: Product }) {
           </motion.div>
         </div>
 
+        {/* Product Description & Details */}
+        <section className="mt-16">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+            {/* Main Description */}
+            <div className="lg:col-span-2">
+              <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
+                توضیحات محصول
+              </h2>
+              <div className="rounded-3xl border border-gray-200 bg-white p-6 sm:p-8 dark:border-gray-800 dark:bg-zinc-950">
+                <p className="text-sm leading-8 text-gray-600 sm:text-base dark:text-gray-400">
+                  {product.description || `این محصول ${product.title} با کیفیت بالا و قیمت مناسب در دسته بندی ${product.category} عرضه می‌شود. برای کسب اطلاعات بیشتر و مشاهده مشخصات فنی، بخش مشخصات محصول را مشاهده کنید.`}
+                </p>
+                <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                  <div className="rounded-xl bg-gray-50 p-4 text-center dark:bg-zinc-900">
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                      {toPersianNumber(product.rating)}
+                    </p>
+                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                      امتیاز
+                    </p>
+                  </div>
+                  <div className="rounded-xl bg-gray-50 p-4 text-center dark:bg-zinc-900">
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                      {toPersianNumber(product.specs?.length ?? 0)}
+                    </p>
+                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                      مشخصات
+                    </p>
+                  </div>
+                  <div className="rounded-xl bg-gray-50 p-4 text-center dark:bg-zinc-900">
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                      {toPersianNumber(product.gallery?.length ?? 1)}
+                    </p>
+                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                      تصاویر
+                    </p>
+                  </div>
+                  <div className="rounded-xl bg-gray-50 p-4 text-center dark:bg-zinc-900">
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                      {relatedProducts.length > 0 ? toPersianNumber(relatedProducts.length) : '—'}
+                    </p>
+                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                      محصول مشابه
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Sidebar Info */}
+            <div className="space-y-6">
+              <div className="rounded-3xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-zinc-950">
+                <h3 className="mb-4 text-lg font-bold text-gray-900 dark:text-white">
+                  چرا ما؟
+                </h3>
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3">
+                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-100 text-xs text-green-600 dark:bg-green-900 dark:text-green-400">
+                      ✓
+                    </span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      ضمانت اصالت کالا و بهترین قیمت
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-100 text-xs text-green-600 dark:bg-green-900 dark:text-green-400">
+                      ✓
+                    </span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      ارسال سریع به سراسر کشور
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-100 text-xs text-green-600 dark:bg-green-900 dark:text-green-400">
+                      ✓
+                    </span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      پشتیبانی ۲۴ ساعته و مشاوره رایگان
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-100 text-xs text-green-600 dark:bg-green-900 dark:text-green-400">
+                      ✓
+                    </span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      ۷ روز ضمانت بازگشت بدون قید و شرط
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="rounded-3xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-zinc-950">
+                <h3 className="mb-3 text-lg font-bold text-gray-900 dark:text-white">
+                  دسته‌بندی
+                </h3>
+                <Link
+                  href={`/store?category=${encodeURIComponent(product.category)}`}
+                  className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-200 dark:bg-zinc-800 dark:text-gray-300 dark:hover:bg-zinc-700"
+                >
+                  {product.category}
+                  <ChevronLeft className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <section className="mt-16">
@@ -267,7 +374,7 @@ export default function ProductDetail({ product }: { product: Product }) {
                 محصولات مرتبط
               </h2>
               <Link
-                href="/store"
+                href={`/store?category=${encodeURIComponent(product.category)}`}
                 className="flex items-center gap-1 text-sm font-medium text-gray-500 transition hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
               >
                 مشاهده همه
@@ -276,7 +383,7 @@ export default function ProductDetail({ product }: { product: Product }) {
             </div>
 
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {relatedProducts.map((item) => (
+              {relatedProducts.slice(0, 4).map((item) => (
                 <Link
                   key={item._id}
                   href={`/store/${item._id}`}
@@ -299,6 +406,10 @@ export default function ProductDetail({ product }: { product: Product }) {
                     <p className="mt-2 text-base font-bold text-gray-900 dark:text-white">
                       {toPersianPrice(item.price)} تومان
                     </p>
+                    <span className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-gray-500 transition group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white">
+                      مشاهده محصول
+                      <ChevronLeft className="h-3 w-3" />
+                    </span>
                   </div>
                 </Link>
               ))}
