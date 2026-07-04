@@ -7,6 +7,7 @@ export type UserProfile = {
   phone: string
   address: string
   image: string
+  role?: string
 }
 
 type UserState = {

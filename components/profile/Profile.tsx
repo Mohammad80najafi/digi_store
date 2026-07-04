@@ -77,8 +77,13 @@ export default function Profile() {
       .catch(() => {})
   }, [])
 
-  const handleLogout = () => {
-    updateProfile({ name: '', email: '', phone: '', address: '', image: '' })
+  const handleLogout = async () => {
+    await fetch('/api/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'logout' }),
+    })
+    updateProfile({ name: '', email: '', phone: '', address: '', image: '', role: undefined })
     localStorage.removeItem('user-storage')
     router.push('/auth')
   }

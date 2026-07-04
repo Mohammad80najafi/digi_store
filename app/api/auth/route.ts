@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { connectToDatabase } from '@/lib/mongodb'
+import { signToken } from '@/lib/jwt'
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,6 +17,7 @@ export async function POST(request: NextRequest) {
         email,
         phone,
         password,
+        role: 'user',
         createdAt: new Date(),
       })
       return NextResponse.json({
@@ -23,6 +25,7 @@ export async function POST(request: NextRequest) {
         name,
         email,
         phone,
+        role: 'user',
       }, { status: 201 })
     }
 
@@ -31,12 +34,39 @@ export async function POST(request: NextRequest) {
       if (!user) {
         return NextResponse.json({ error: 'ایمیل یا رمز عبور اشتباه است' }, { status: 401 })
       }
-      return NextResponse.json({
+
+      const role = user.role || 'user'
+      const token = await signToken({ email: user.email, role })
+
+      const response = NextResponse.json({
         _id: user._id,
         name: user.name,
         email: user.email,
         phone: user.phone,
+        role,
       })
+
+      response.cookies.set('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 7,
+        path: '/',
+      })
+
+      return response
+    }
+
+    if (action === 'logout') {
+      const response = NextResponse.json({ success: true })
+      response.cookies.set('token', '', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 0,
+        path: '/',
+      })
+      return response
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 })

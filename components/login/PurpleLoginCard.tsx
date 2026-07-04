@@ -63,6 +63,7 @@ export default function LoginCard() {
         phone: data.phone || '',
         address: '',
         image: '',
+        role: data.role,
       })
       router.push('/profile')
     } catch {
