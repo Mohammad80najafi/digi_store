@@ -33,9 +33,9 @@ const Footer = () => {
   return (
     <footer className="border-t border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900">
       <div className="mx-auto max-w-7xl px-6 py-12">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand & Description */}
-          <div className="lg:col-span-1">
+          <div className="col-span-2 lg:col-span-1">
             <h2 className="mb-3 text-2xl font-bold text-gray-900 dark:text-white">
               {settings.siteName || 'دیجی استور'}
             </h2>
@@ -162,7 +162,7 @@ const Footer = () => {
           </div>
 
           {/* Contact Info */}
-          <div>
+          <div className="col-span-2 lg:col-span-1">
             <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
               تماس با ما
             </h3>
