@@ -11,14 +11,26 @@ export async function connectToDatabase(): Promise<{
   db: Db
 }> {
   if (cachedClient && cachedDb) {
+    console.log('[MongoDB] Using cached connection')
     return { client: cachedClient, db: cachedDb }
   }
 
-  const client = await MongoClient.connect(MONGODB_URI)
-  const db = client.db(MONGODB_DB)
+  console.log('[MongoDB] Connecting to database...')
 
-  cachedClient = client
-  cachedDb = db
+  try {
+    const client = await MongoClient.connect(MONGODB_URI)
+    const db = client.db(MONGODB_DB)
 
-  return { client, db }
+    cachedClient = client
+    cachedDb = db
+
+    console.log('[MongoDB] Connected successfully')
+    console.log(`[MongoDB] Database: ${MONGODB_DB}`)
+    console.log(`[MongoDB] URI: ${MONGODB_URI.replace(/\/\/([^:]+):([^@]+)@/, '//$1:***@')}`)
+
+    return { client, db }
+  } catch (error) {
+    console.error('[MongoDB] Connection failed:', error)
+    throw error
+  }
 }
