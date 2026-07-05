@@ -6,7 +6,10 @@ const MONGODB_DB = process.env.MONGODB_DB || 'digistore'
 let cachedClient: MongoClient | null = null
 let cachedDb: Db | null = null
 
-export async function connectToDatabase(): Promise<{ client: MongoClient; db: Db }> {
+export async function connectToDatabase(): Promise<{
+  client: MongoClient
+  db: Db
+}> {
   if (cachedClient && cachedDb) {
     return { client: cachedClient, db: cachedDb }
   }

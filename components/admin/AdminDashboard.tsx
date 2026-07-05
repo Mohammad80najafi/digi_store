@@ -217,7 +217,7 @@ export default function AdminDashboard() {
       <main
         className={cn(
           'flex-1 transition-all duration-300',
-          sidebarOpen ? 'mr-64' : 'mr-20',
+          sidebarOpen ? 'lg:mr-64' : 'lg:mr-20',
         )}
       >
         {/* Top bar */}
@@ -238,7 +238,7 @@ export default function AdminDashboard() {
         </header>
 
         {/* Page content */}
-        <div className="p-6">
+        <div className="p-3 pb-20 sm:pb-6 sm:p-4 md:p-6">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -280,6 +280,35 @@ export default function AdminDashboard() {
           </AnimatePresence>
         </div>
       </main>
+
+      {/* Mobile bottom nav */}
+      <nav className="fixed bottom-0 right-0 left-0 z-40 flex items-center justify-around border-t border-gray-200 bg-white/95 px-2 pt-1 pb-[env(safe-area-inset-bottom,4px)] backdrop-blur-lg lg:hidden dark:border-gray-800 dark:bg-zinc-950/95">
+        {navItems.slice(0, 5).map((item) => {
+          const isActive = activeTab === item.id
+          return (
+            <button
+              key={item.id}
+              onClick={() => setActiveTab(item.id)}
+              className={cn(
+                'flex flex-1 flex-col items-center gap-0.5 rounded-xl px-1 py-2 text-[10px] font-medium transition',
+                isActive
+                  ? 'text-gray-900 dark:text-white'
+                  : 'text-gray-400 dark:text-gray-500',
+              )}
+            >
+              <item.icon className="h-5 w-5" />
+              <span className="truncate">{item.label}</span>
+            </button>
+          )
+        })}
+        <button
+          onClick={() => setMobileSidebarOpen(true)}
+          className="flex flex-1 flex-col items-center gap-0.5 rounded-xl px-1 py-2 text-[10px] font-medium text-gray-400 transition dark:text-gray-500"
+        >
+          <Menu className="h-5 w-5" />
+          <span>بیشتر</span>
+        </button>
+      </nav>
     </div>
   )
 }
@@ -348,7 +377,7 @@ function OverviewTab({
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">{stat.label}</p>
-                <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+                <p className="mt-2 text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl dark:text-white">
                   {stat.value}
                 </p>
               </div>
@@ -423,7 +452,7 @@ function OverviewTab({
               {orders.slice(0, 5).map((order) => (
                 <div
                   key={order._id}
-                  className="flex items-center justify-between rounded-xl border border-gray-50 bg-gray-50/50 p-3.5 transition hover:border-gray-100 dark:border-gray-800 dark:bg-zinc-900/50 dark:hover:border-gray-700"
+                  className="flex flex-col gap-3 rounded-xl border border-gray-50 bg-gray-50/50 p-3.5 transition hover:border-gray-100 sm:flex-row sm:items-center sm:justify-between dark:border-gray-800 dark:bg-zinc-900/50 dark:hover:border-gray-700"
                 >
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-sm dark:bg-zinc-800">
@@ -436,7 +465,7 @@ function OverviewTab({
                       <p className="text-xs text-gray-400">{order.date}</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <span className="text-sm font-bold text-gray-900 dark:text-white">
                       {toPersianPrice(order.total)}
                     </span>
@@ -614,36 +643,37 @@ function ProductsTab({
             <table className="w-full text-left text-sm">
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50/50 dark:border-gray-800 dark:bg-zinc-900/50">
-                  <th className="px-5 py-3.5 text-xs font-medium text-gray-400">محصول</th>
-                  <th className="px-5 py-3.5 text-xs font-medium text-gray-400">دسته‌بندی</th>
-                  <th className="px-5 py-3.5 text-xs font-medium text-gray-400">قیمت</th>
-                  <th className="px-5 py-3.5 text-xs font-medium text-gray-400">امتیاز</th>
-                  <th className="px-5 py-3.5 text-right text-xs font-medium text-gray-400">عملیات</th>
+                  <th className="px-3 py-3.5 text-xs font-medium text-gray-400 sm:px-5">محصول</th>
+                  <th className="hidden px-3 py-3.5 text-xs font-medium text-gray-400 sm:table-cell sm:px-5">دسته‌بندی</th>
+                  <th className="px-3 py-3.5 text-xs font-medium text-gray-400 sm:px-5">قیمت</th>
+                  <th className="hidden px-3 py-3.5 text-xs font-medium text-gray-400 sm:table-cell sm:px-5">امتیاز</th>
+                  <th className="px-3 py-3.5 text-right text-xs font-medium text-gray-400 sm:px-5">عملیات</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50 dark:divide-gray-800/50">
                 {filtered.map((product) => (
                   <tr key={product._id} className="transition hover:bg-gray-50/50 dark:hover:bg-zinc-900/30">
-                    <td className="px-5 py-3.5">
+                    <td className="px-3 py-3.5 sm:px-5">
                       <div className="flex items-center gap-3">
-                        <div className="h-11 w-11 shrink-0 overflow-hidden rounded-xl bg-gray-100 dark:bg-zinc-800">
+                        <div className="h-10 w-10 shrink-0 overflow-hidden rounded-xl bg-gray-100 sm:h-11 sm:w-11 dark:bg-zinc-800">
                           <img src={product.image} alt="" className="h-full w-full object-cover" />
                         </div>
-                        <div>
-                          <p className="font-medium text-gray-900 dark:text-white">{product.title}</p>
+                        <div className="min-w-0">
+                          <p className="truncate font-medium text-gray-900 dark:text-white">{product.title}</p>
+                          <p className="text-xs text-gray-400 sm:hidden">{product.category}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="px-5 py-3.5 text-gray-500 dark:text-gray-400">{product.category}</td>
-                    <td className="px-5 py-3.5 font-medium text-gray-900 dark:text-white">
+                    <td className="hidden px-3 py-3.5 text-gray-500 sm:table-cell sm:px-5 dark:text-gray-400">{product.category}</td>
+                    <td className="px-3 py-3.5 font-medium text-gray-900 sm:px-5 dark:text-white">
                       {toPersianPrice(product.price)} $
                     </td>
-                    <td className="px-5 py-3.5">
+                    <td className="hidden px-3 py-3.5 sm:table-cell sm:px-5">
                       <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-700 dark:bg-amber-950/30 dark:text-amber-400">
                         ★ {toPersianNumber(product.rating)}
                       </span>
                     </td>
-                    <td className="px-5 py-3.5">
+                    <td className="px-3 py-3.5 sm:px-5">
                       <div className="flex justify-end gap-1">
                         <button
                           onClick={() => { setEditing(product); setShowForm(true) }}
@@ -737,7 +767,7 @@ function ProductForm({
           <textarea name="description" value={form.description} onChange={handleChange} rows={3} className={cn(inputClass, 'resize-none')} />
         </div>
       </div>
-      <div className="mt-5 flex gap-3">
+      <div className="mt-5 flex flex-col gap-3 sm:flex-row">
         <button
           type="submit"
           className="rounded-xl bg-gray-900 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
@@ -828,7 +858,7 @@ function OrdersTab({
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-3">
                   <span className="text-base font-bold text-gray-900 dark:text-white">
                     {toPersianPrice(order.total)} تومان
                   </span>
@@ -978,7 +1008,7 @@ function BrandsTab({
                   <input value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} className={inputClass} required />
                 </div>
               </div>
-              <div className="mt-5 flex gap-3">
+              <div className="mt-5 flex flex-col gap-3 sm:flex-row">
                 <button type="submit" className="rounded-xl bg-gray-900 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
                   ذخیره
                 </button>
@@ -1010,7 +1040,7 @@ function BrandsTab({
               <div className="min-w-0 flex-1">
                 <p className="truncate font-medium text-gray-900 dark:text-white">{brand.name}</p>
               </div>
-              <div className="flex gap-1 opacity-0 transition group-hover:opacity-100">
+              <div className="flex gap-1 sm:opacity-0 sm:transition sm:group-hover:opacity-100">
                 <button
                   onClick={() => { setEditing(brand); setForm({ name: brand.name, image: brand.image }); setShowForm(true) }}
                   className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 transition hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-zinc-800"
@@ -1140,7 +1170,7 @@ function BannersTab({
                   <input value={form.link} onChange={(e) => setForm({ ...form, link: e.target.value })} className={inputClass} />
                 </div>
               </div>
-              <div className="mt-5 flex gap-3">
+              <div className="mt-5 flex flex-col gap-3 sm:flex-row">
                 <button type="submit" className="rounded-xl bg-gray-900 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
                   ذخیره
                 </button>
@@ -1328,7 +1358,7 @@ function HeroSlidesTab({
                   <input value={form.href} onChange={(e) => setForm({ ...form, href: e.target.value })} className={inputClass} required />
                 </div>
               </div>
-              <div className="mt-5 flex gap-3">
+              <div className="mt-5 flex flex-col gap-3 sm:flex-row">
                 <button type="submit" className="rounded-xl bg-gray-900 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
                   ذخیره
                 </button>
@@ -1390,7 +1420,7 @@ function HeroSlidesTab({
                     >
                       ↓
                     </button>
-                    <div className="mr-auto flex gap-1 opacity-0 transition group-hover:opacity-100">
+                    <div className="mr-auto flex gap-1 sm:opacity-0 sm:transition sm:group-hover:opacity-100">
                       <button
                         onClick={() => { setEditing(slide); setForm({ image: slide.image, title: slide.title, subtitle: slide.subtitle, cta: slide.cta, href: slide.href }); setShowForm(true) }}
                         className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 transition hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-zinc-800"
@@ -1541,7 +1571,7 @@ function UsersTab({
                   <input value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} className={inputClass} />
                 </div>
               </div>
-              <div className="mt-5 flex gap-3">
+              <div className="mt-5 flex flex-col gap-3 sm:flex-row">
                 <button type="submit" className="rounded-xl bg-gray-900 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
                   ذخیره
                 </button>
@@ -1566,19 +1596,19 @@ function UsersTab({
             <table className="w-full text-left text-sm">
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50/50 dark:border-gray-800 dark:bg-zinc-900/50">
-                  <th className="px-5 py-3.5 text-xs font-medium text-gray-400">کاربر</th>
-                  <th className="px-5 py-3.5 text-xs font-medium text-gray-400">ایمیل</th>
-                  <th className="px-5 py-3.5 text-xs font-medium text-gray-400">تلفن</th>
-                  <th className="px-5 py-3.5 text-xs font-medium text-gray-400">نقش</th>
-                  <th className="px-5 py-3.5 text-right text-xs font-medium text-gray-400">عملیات</th>
+                  <th className="px-3 py-3.5 text-xs font-medium text-gray-400 sm:px-5">کاربر</th>
+                  <th className="hidden px-3 py-3.5 text-xs font-medium text-gray-400 sm:table-cell sm:px-5">ایمیل</th>
+                  <th className="hidden px-3 py-3.5 text-xs font-medium text-gray-400 sm:table-cell sm:px-5">تلفن</th>
+                  <th className="px-3 py-3.5 text-xs font-medium text-gray-400 sm:px-5">نقش</th>
+                  <th className="px-3 py-3.5 text-right text-xs font-medium text-gray-400 sm:px-5">عملیات</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50 dark:divide-gray-800/50">
                 {filtered.map((user) => (
                   <tr key={user._id} className="transition hover:bg-gray-50/50 dark:hover:bg-zinc-900/30">
-                    <td className="px-5 py-3.5">
+                    <td className="px-3 py-3.5 sm:px-5">
                       <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full bg-gray-100 dark:bg-zinc-800">
+                        <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full bg-gray-100 sm:h-10 sm:w-10 dark:bg-zinc-800">
                           {user.image ? (
                             <img src={user.image} alt="" className="h-full w-full object-cover" />
                           ) : (
@@ -1587,12 +1617,15 @@ function UsersTab({
                             </div>
                           )}
                         </div>
-                        <span className="font-medium text-gray-900 dark:text-white">{user.name}</span>
+                        <div className="min-w-0">
+                          <p className="truncate font-medium text-gray-900 dark:text-white">{user.name}</p>
+                          <p className="truncate text-xs text-gray-400 sm:hidden">{user.email}</p>
+                        </div>
                       </div>
                     </td>
-                    <td className="px-5 py-3.5 text-gray-500 dark:text-gray-400">{user.email}</td>
-                    <td className="px-5 py-3.5 text-gray-500 dark:text-gray-400">{user.phone || '—'}</td>
-                    <td className="px-5 py-3.5">
+                    <td className="hidden px-3 py-3.5 text-gray-500 sm:table-cell sm:px-5 dark:text-gray-400">{user.email}</td>
+                    <td className="hidden px-3 py-3.5 text-gray-500 sm:table-cell sm:px-5 dark:text-gray-400">{user.phone || '—'}</td>
+                    <td className="px-3 py-3.5 sm:px-5">
                       <span
                         className={cn(
                           'rounded-full px-2.5 py-1 text-[11px] font-medium',
@@ -1604,7 +1637,7 @@ function UsersTab({
                         {user.role === 'admin' ? 'مدیر' : 'کاربر'}
                       </span>
                     </td>
-                    <td className="px-5 py-3.5">
+                    <td className="px-3 py-3.5 sm:px-5">
                       <div className="flex justify-end gap-1">
                         <button
                           onClick={() => { setEditing(user); setForm({ name: user.name, email: user.email, phone: user.phone || '', address: user.address || '', image: user.image || '', role: user.role || 'user' }); setShowForm(true) }}
