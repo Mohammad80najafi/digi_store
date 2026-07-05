@@ -5,7 +5,7 @@ import { Providers } from '../utils/providers'
 import CartDrawer from '@/components/cart/CartDrawer'
 
 const vazir = localFont({
-  src: '../public/fonts/vazirMatn/Vazirmatn-regular.ttf',
+  src: '../public/fonts/vazirMatn/Vazirmatn-Regular.ttf',
   variable: '--font-vazir',
   display: 'swap',
 })

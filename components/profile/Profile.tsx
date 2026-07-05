@@ -113,7 +113,7 @@ export default function Profile() {
                 />
               ) : (
                 <div className="flex h-full w-full items-center justify-center text-3xl font-bold text-gray-400 dark:text-gray-500">
-                  {profile.name.charAt(0)}
+                  {(profile.name || '?').charAt(0)}
                 </div>
               )}
             </div>
