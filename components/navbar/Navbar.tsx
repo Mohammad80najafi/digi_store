@@ -173,7 +173,7 @@ export default function Navbar() {
             </Link>
           )}
           <Link
-            href="/profile"
+            href={profile.email ? '/profile' : '/auth'}
             dir="rtl"
             className={
               'md:11.5 hidden h-11 items-center justify-center rounded-full bg-white px-4 text-sm font-medium text-black transition sm:flex md:px-6 md:text-base dark:bg-black dark:text-white'
@@ -214,7 +214,7 @@ export default function Navbar() {
             )}
             <li>
               <Link
-                href="/profile"
+                href={profile.email ? '/profile' : '/auth'}
                 dir="rtl"
                 className={
                   'mt-2 flex h-11 items-center justify-center rounded-full bg-black text-sm font-medium text-white dark:bg-white dark:text-black'
