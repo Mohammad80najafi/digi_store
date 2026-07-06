@@ -16,8 +16,8 @@ type UserState = {
 }
 
 const defaultProfile: UserProfile = {
-  name: 'محمد نجفی',
-  email: 'najafimohammad2808@gmail.com',
+  name: '',
+  email: '',
   phone: '',
   address: '',
   image: '',
